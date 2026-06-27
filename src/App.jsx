@@ -1318,21 +1318,24 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
       text = text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```\s*$/i, "").trim();
       const parsed = JSON.parse(text);
 
+      const isPlayer = s => s.label !== "Team Logo" && s.label !== "Team Photo";
+
       let sticker = null;
       if (parsed.stickerId) {
-        sticker = STICKERS.find(s => s.id.toLowerCase() === String(parsed.stickerId).toLowerCase());
+        sticker = STICKERS.find(s => isPlayer(s) && s.id.toLowerCase() === String(parsed.stickerId).toLowerCase());
       }
       if (!sticker && parsed.playerName && parsed.team) {
         sticker = STICKERS.find(s =>
+          isPlayer(s) &&
           s.label.toLowerCase().includes(parsed.playerName.toLowerCase()) &&
           s.team.toLowerCase().includes(parsed.team.toLowerCase())
         );
       }
       if (!sticker && parsed.playerName) {
-        sticker = STICKERS.find(s => s.label.toLowerCase().includes(parsed.playerName.toLowerCase()));
+        sticker = STICKERS.find(s => isPlayer(s) && s.label.toLowerCase().includes(parsed.playerName.toLowerCase()));
       }
       if (!sticker && parsed.team) {
-        sticker = STICKERS.find(s => s.team.toLowerCase().includes(parsed.team.toLowerCase()));
+        sticker = STICKERS.find(s => isPlayer(s) && s.team.toLowerCase().includes(parsed.team.toLowerCase()));
       }
 
       if (!sticker) { setPhase("notfound"); return; }
