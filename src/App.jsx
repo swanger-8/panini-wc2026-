@@ -1299,13 +1299,24 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
             role: "user",
             content: [
               { type: "image", source: { type: "base64", media_type: "image/jpeg", data: capturedB64 } },
-              { type: "text", text: "This is a Panini FIFA World Cup 2026 sticker card. Identify: 1) The player name or card type like Team Logo or Team Photo, 2) The team name, 3) The sticker ID code if visible like ARG17 or USA3, 4) The border color rarity which is one of: base, blue, red, orange, purple, green, gold, black. Return JSON only, no other text, in this exact format: {playerName, team, stickerId, borderColor}" }
+              { type: "text", text: "This is a Panini FIFA World Cup 2026 sticker card. Identify: 1) The player name or card type like Team Logo or Team Photo, 2) The team name, 3) The sticker ID code if visible like ARG17 or USA3, 4) The border color rarity which is one of: base, blue, red, orange, purple, green, gold, black. Return JSON only, no other text, in this exact format: {\"playerName\": \"\", \"team\": \"\", \"stickerId\": \"\", \"borderColor\": \"\"}" }
             ]
           }]
         })
       });
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        console.error("Anthropic API error:", res.status, errData);
+        onClose("error");
+        return;
+      }
+
       const data = await res.json();
-      const parsed = JSON.parse(data.content[0].text);
+      let text = data.content?.[0]?.text ?? "";
+      // Strip markdown code fences Claude sometimes adds
+      text = text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```\s*$/i, "").trim();
+      const parsed = JSON.parse(text);
 
       let sticker = null;
       if (parsed.stickerId) {
@@ -1320,17 +1331,57 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
       if (!sticker && parsed.playerName) {
         sticker = STICKERS.find(s => s.label.toLowerCase().includes(parsed.playerName.toLowerCase()));
       }
+      if (!sticker && parsed.team) {
+        sticker = STICKERS.find(s => s.team.toLowerCase().includes(parsed.team.toLowerCase()));
+      }
 
-      if (!sticker) { onClose("error"); return; }
+      if (!sticker) { setPhase("notfound"); return; }
 
       const validRarityIds = ["base", "blue", "red", "orange", "purple", "green", "gold", "black"];
       const rarityId = validRarityIds.includes(parsed.borderColor) ? parsed.borderColor : "base";
 
       if (action === "add") onAddToInventory(sticker, rarityId);
       else onLookUp(sticker);
-    } catch {
+    } catch (e) {
+      console.error("Scan error:", e);
       onClose("error");
     }
+  };
+
+  const retake = () => {
+    setCapturedB64(null);
+    setCountdown(3);
+    setPhase("camera");
+    navigator.mediaDevices
+      .getUserMedia({ video: { facingMode: { ideal: "environment" } }, audio: false })
+      .then(stream => {
+        streamRef.current = stream;
+        if (videoRef.current) videoRef.current.srcObject = stream;
+        let count = 3;
+        countdownRef.current = setInterval(() => {
+          count -= 1;
+          setCountdown(count);
+          if (count <= 0) {
+            clearInterval(countdownRef.current);
+            countdownRef.current = null;
+            setFlash(true);
+            setTimeout(() => setFlash(false), 350);
+            const video = videoRef.current;
+            const canvas = canvasRef.current;
+            if (video && canvas) {
+              canvas.width = video.videoWidth || 640;
+              canvas.height = video.videoHeight || 480;
+              canvas.getContext("2d").drawImage(video, 0, 0);
+              const b64 = canvas.toDataURL("image/jpeg", 0.85).split(",")[1];
+              stream.getTracks().forEach(t => t.stop());
+              streamRef.current = null;
+              setCapturedB64(b64);
+              setPhase("choice");
+            }
+          }
+        }, 1000);
+      })
+      .catch(() => onClose("error"));
   };
 
   const handleClose = () => { stopStream(); onClose(); };
@@ -1397,6 +1448,23 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
             onClick={() => callAPI("lookup")}
             style={{ width: "100%", maxWidth: 320, padding: "18px", borderRadius: 16, border: "1.5px solid rgba(255,255,255,0.4)", background: "rgba(255,255,255,0.1)", color: "#fff", fontSize: 18, fontWeight: 700, cursor: "pointer" }}
           >🔍 Look Up Card</button>
+          <button
+            onClick={retake}
+            style={{ width: "100%", maxWidth: 320, padding: "14px", borderRadius: 16, border: "1.5px solid rgba(255,255,255,0.2)", background: "transparent", color: "rgba(255,255,255,0.55)", fontSize: 15, fontWeight: 600, cursor: "pointer" }}
+          >↺ Retake</button>
+        </div>
+      )}
+
+      {/* Not found */}
+      {phase === "notfound" && (
+        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, padding: "0 28px", background: "rgba(0,0,0,0.75)", zIndex: 10 }}>
+          <p style={{ fontSize: 42, margin: 0 }}>🤷</p>
+          <p style={{ color: "#e8e8f0", fontSize: 16, fontWeight: 700, margin: 0 }}>Card not found</p>
+          <p style={{ color: "#aaaacc", fontSize: 13, textAlign: "center", margin: 0 }}>Couldn't match this to a sticker in the album. Try a clearer shot.</p>
+          <button
+            onClick={retake}
+            style={{ marginTop: 8, width: "100%", maxWidth: 320, padding: "18px", borderRadius: 16, border: "none", background: "linear-gradient(90deg,#7b2ff7,#e040fb)", color: "#fff", fontSize: 18, fontWeight: 700, cursor: "pointer" }}
+          >↺ Try Again</button>
         </div>
       )}
 
