@@ -1311,15 +1311,21 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}));
         console.error("Anthropic API error:", res.status, errData);
-        onClose("error");
+        setCorrection("");
+        setPhase("correct");
         return;
       }
 
       const data = await res.json();
       let text = data.content?.[0]?.text ?? "";
-      // Strip markdown code fences Claude sometimes adds
-      text = text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```\s*$/i, "").trim();
-      const parsed = JSON.parse(text);
+      // Extract the JSON object from anywhere in the response,
+      // regardless of surrounding prose or code fences
+      const start = text.indexOf("{");
+      const end = text.lastIndexOf("}");
+      if (start !== -1 && end > start) text = text.slice(start, end + 1);
+
+      let parsed = {};
+      try { parsed = JSON.parse(text); } catch { /* fall through to manual search */ }
 
       const isPlayer = s => s.label !== "Team Logo" && s.label !== "Team Photo";
 
@@ -1341,7 +1347,12 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
         sticker = STICKERS.find(s => isPlayer(s) && s.team.toLowerCase().includes(parsed.team.toLowerCase()));
       }
 
-      if (!sticker) { setPhase("notfound"); return; }
+      if (!sticker) {
+        // Pre-fill the correction box with whatever the AI thought it saw
+        setCorrection(parsed.playerName || parsed.team || "");
+        setPhase("correct");
+        return;
+      }
 
       const validRarityIds = ["base", "blue", "red", "orange", "purple", "green", "gold", "black"];
       const rarityId = validRarityIds.includes(parsed.borderColor) ? parsed.borderColor : "base";
@@ -1355,7 +1366,8 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
       }
     } catch (e) {
       console.error("Scan error:", e);
-      onClose("error");
+      setCorrection("");
+      setPhase("correct");
     }
   };
 
@@ -1502,7 +1514,10 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
           : [];
         return (
           <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", background: "rgba(0,0,0,0.92)", zIndex: 10, padding: "60px 20px 20px" }}>
-            <p style={{ color: "#e8e8f0", fontSize: 16, fontWeight: 700, margin: "0 0 12px" }}>Who is this player?</p>
+            <p style={{ color: "#e8e8f0", fontSize: 16, fontWeight: 700, margin: "0 0 4px" }}>
+              {pendingSticker ? "Who is this player?" : "Couldn't read card — search manually"}
+            </p>
+            <p style={{ color: "#666", fontSize: 13, margin: "0 0 12px" }}>Type player name, team, or sticker code</p>
             <input
               autoFocus
               value={correction}
@@ -1525,26 +1540,21 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
                 </button>
               ))}
             </div>
-            <button
-              onClick={() => setPhase("confirm")}
-              style={{ marginTop: 12, padding: "13px", borderRadius: 12, border: "none", background: "transparent", color: "rgba(255,255,255,0.4)", fontSize: 14, cursor: "pointer" }}
-            >← Back</button>
+            <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+              <button
+                onClick={retake}
+                style={{ flex: 1, padding: "13px", borderRadius: 12, border: "1px solid #2a2a4a", background: "#13131f", color: "rgba(255,255,255,0.5)", fontSize: 14, cursor: "pointer" }}
+              >↺ Retake</button>
+              {pendingSticker && (
+                <button
+                  onClick={() => setPhase("confirm")}
+                  style={{ flex: 1, padding: "13px", borderRadius: 12, border: "1px solid #2a2a4a", background: "#13131f", color: "rgba(255,255,255,0.5)", fontSize: 14, cursor: "pointer" }}
+                >← Back</button>
+              )}
+            </div>
           </div>
         );
       })()}
-
-      {/* Not found */}
-      {phase === "notfound" && (
-        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, padding: "0 28px", background: "rgba(0,0,0,0.75)", zIndex: 10 }}>
-          <p style={{ fontSize: 42, margin: 0 }}>🤷</p>
-          <p style={{ color: "#e8e8f0", fontSize: 16, fontWeight: 700, margin: 0 }}>Card not found</p>
-          <p style={{ color: "#aaaacc", fontSize: 13, textAlign: "center", margin: 0 }}>Couldn't match this to a sticker in the album. Try a clearer shot.</p>
-          <button
-            onClick={retake}
-            style={{ marginTop: 8, width: "100%", maxWidth: 320, padding: "18px", borderRadius: 16, border: "none", background: "linear-gradient(90deg,#7b2ff7,#e040fb)", color: "#fff", fontSize: 18, fontWeight: 700, cursor: "pointer" }}
-          >↺ Try Again</button>
-        </div>
-      )}
 
       {/* Loading spinner */}
       {phase === "loading" && (
