@@ -1235,39 +1235,49 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
   const [pendingSticker, setPendingSticker] = useState(null);
   const [pendingRarity, setPendingRarity] = useState("base");
   const [correction, setCorrection] = useState("");
+  const [apiError, setApiError] = useState(null);
+
+  const startCountdown = (stream, mounted) => {
+    let count = 3;
+    countdownRef.current = setInterval(() => {
+      count -= 1;
+      setCountdown(count);
+      if (count <= 0) {
+        clearInterval(countdownRef.current);
+        countdownRef.current = null;
+        setFlash(true);
+        setTimeout(() => setFlash(false), 350);
+        const video = videoRef.current;
+        const canvas = canvasRef.current;
+        if (video && canvas && mounted) {
+          canvas.width = video.videoWidth || 640;
+          canvas.height = video.videoHeight || 480;
+          canvas.getContext("2d").drawImage(video, 0, 0);
+          const b64 = canvas.toDataURL("image/jpeg", 0.85).split(",")[1];
+          stream.getTracks().forEach(t => t.stop());
+          streamRef.current = null;
+          setCapturedB64(b64);
+          setPhase("choice");
+        }
+      }
+    }, 1000);
+  };
 
   useEffect(() => {
     let mounted = true;
     navigator.mediaDevices
-      .getUserMedia({ video: { facingMode: { ideal: "environment" } }, audio: false })
+      .getUserMedia({ video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false })
       .then(stream => {
         if (!mounted) { stream.getTracks().forEach(t => t.stop()); return; }
         streamRef.current = stream;
-        if (videoRef.current) videoRef.current.srcObject = stream;
-
-        let count = 3;
-        countdownRef.current = setInterval(() => {
-          count -= 1;
-          setCountdown(count);
-          if (count <= 0) {
-            clearInterval(countdownRef.current);
-            countdownRef.current = null;
-            setFlash(true);
-            setTimeout(() => setFlash(false), 350);
-            const video = videoRef.current;
-            const canvas = canvasRef.current;
-            if (video && canvas && mounted) {
-              canvas.width = video.videoWidth || 640;
-              canvas.height = video.videoHeight || 480;
-              canvas.getContext("2d").drawImage(video, 0, 0);
-              const b64 = canvas.toDataURL("image/jpeg", 0.85).split(",")[1];
-              stream.getTracks().forEach(t => t.stop());
-              streamRef.current = null;
-              setCapturedB64(b64);
-              setPhase("choice");
-            }
-          }
-        }, 1000);
+        const video = videoRef.current;
+        if (video) {
+          video.srcObject = stream;
+          // Wait until the camera is actually producing frames before starting countdown
+          video.onplaying = () => {
+            if (mounted) startCountdown(stream, mounted);
+          };
+        }
       })
       .catch(() => onClose("error"));
     return () => {
@@ -1311,10 +1321,12 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}));
         console.error("Anthropic API error:", res.status, errData);
+        setApiError(`API error ${res.status}${errData?.error?.message ? ": " + errData.error.message : ""}`);
         setCorrection("");
         setPhase("correct");
         return;
       }
+      setApiError(null);
 
       const data = await res.json();
       let text = data.content?.[0]?.text ?? "";
@@ -1376,33 +1388,14 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
     setCountdown(3);
     setPhase("camera");
     navigator.mediaDevices
-      .getUserMedia({ video: { facingMode: { ideal: "environment" } }, audio: false })
+      .getUserMedia({ video: { facingMode: { ideal: "environment" }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false })
       .then(stream => {
         streamRef.current = stream;
-        if (videoRef.current) videoRef.current.srcObject = stream;
-        let count = 3;
-        countdownRef.current = setInterval(() => {
-          count -= 1;
-          setCountdown(count);
-          if (count <= 0) {
-            clearInterval(countdownRef.current);
-            countdownRef.current = null;
-            setFlash(true);
-            setTimeout(() => setFlash(false), 350);
-            const video = videoRef.current;
-            const canvas = canvasRef.current;
-            if (video && canvas) {
-              canvas.width = video.videoWidth || 640;
-              canvas.height = video.videoHeight || 480;
-              canvas.getContext("2d").drawImage(video, 0, 0);
-              const b64 = canvas.toDataURL("image/jpeg", 0.85).split(",")[1];
-              stream.getTracks().forEach(t => t.stop());
-              streamRef.current = null;
-              setCapturedB64(b64);
-              setPhase("choice");
-            }
-          }
-        }, 1000);
+        const video = videoRef.current;
+        if (video) {
+          video.srcObject = stream;
+          video.onplaying = () => startCountdown(stream, true);
+        }
       })
       .catch(() => onClose("error"));
   };
@@ -1515,8 +1508,11 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
         return (
           <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", background: "rgba(0,0,0,0.92)", zIndex: 10, padding: "60px 20px 20px" }}>
             <p style={{ color: "#e8e8f0", fontSize: 16, fontWeight: 700, margin: "0 0 4px" }}>
-              {pendingSticker ? "Who is this player?" : "Couldn't read card — search manually"}
+              {pendingSticker ? "Who is this player?" : "Search for the card manually"}
             </p>
+            {apiError && (
+              <p style={{ color: "#f87171", fontSize: 12, margin: "0 0 6px", background: "rgba(239,68,68,0.15)", padding: "6px 10px", borderRadius: 8 }}>{apiError}</p>
+            )}
             <p style={{ color: "#666", fontSize: 13, margin: "0 0 12px" }}>Type player name, team, or sticker code</p>
             <input
               autoFocus
