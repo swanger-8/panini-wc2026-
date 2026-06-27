@@ -1227,8 +1227,11 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const streamRef = useRef(null);
+  const countdownRef = useRef(null);
   const [phase, setPhase] = useState("camera");
   const [capturedB64, setCapturedB64] = useState(null);
+  const [countdown, setCountdown] = useState(3);
+  const [flash, setFlash] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -1238,30 +1241,44 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
         if (!mounted) { stream.getTracks().forEach(t => t.stop()); return; }
         streamRef.current = stream;
         if (videoRef.current) videoRef.current.srcObject = stream;
+
+        let count = 3;
+        countdownRef.current = setInterval(() => {
+          count -= 1;
+          setCountdown(count);
+          if (count <= 0) {
+            clearInterval(countdownRef.current);
+            countdownRef.current = null;
+            setFlash(true);
+            setTimeout(() => setFlash(false), 350);
+            const video = videoRef.current;
+            const canvas = canvasRef.current;
+            if (video && canvas && mounted) {
+              canvas.width = video.videoWidth || 640;
+              canvas.height = video.videoHeight || 480;
+              canvas.getContext("2d").drawImage(video, 0, 0);
+              const b64 = canvas.toDataURL("image/jpeg", 0.85).split(",")[1];
+              stream.getTracks().forEach(t => t.stop());
+              streamRef.current = null;
+              setCapturedB64(b64);
+              setPhase("choice");
+            }
+          }
+        }, 1000);
       })
       .catch(() => onClose("error"));
     return () => {
       mounted = false;
+      clearInterval(countdownRef.current);
       streamRef.current?.getTracks().forEach(t => t.stop());
     };
   }, []);
 
   const stopStream = () => {
+    clearInterval(countdownRef.current);
+    countdownRef.current = null;
     streamRef.current?.getTracks().forEach(t => t.stop());
     streamRef.current = null;
-  };
-
-  const capture = () => {
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-    if (!video || !canvas) return;
-    canvas.width = video.videoWidth || 640;
-    canvas.height = video.videoHeight || 480;
-    canvas.getContext("2d").drawImage(video, 0, 0);
-    const b64 = canvas.toDataURL("image/jpeg", 0.85).split(",")[1];
-    stopStream();
-    setCapturedB64(b64);
-    setPhase("choice");
   };
 
   const callAPI = async (action) => {
@@ -1320,7 +1337,10 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 500, background: "#000" }}>
-      <style>{`@keyframes scan-spin { to { transform: rotate(360deg); } }`}</style>
+      <style>{`
+        @keyframes scan-spin { to { transform: rotate(360deg); } }
+        @keyframes scan-flash { 0% { opacity: 0.85; } 100% { opacity: 0; } }
+      `}</style>
 
       {/* Live video */}
       <video
@@ -1340,12 +1360,23 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
         />
       )}
 
-      {/* Viewfinder */}
+      {/* Viewfinder with countdown */}
       {phase === "camera" && (
-        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", paddingBottom: 130, pointerEvents: "none" }}>
+        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", pointerEvents: "none" }}>
           <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 12, marginBottom: 14, letterSpacing: 0.5 }}>Align card inside the frame</p>
-          <div style={{ width: 240, height: 336, border: "2px solid rgba(255,255,255,0.85)", borderRadius: 10, boxShadow: "0 0 0 9999px rgba(0,0,0,0.55)" }} />
+          <div style={{ position: "relative", width: 240, height: 336, border: "2px solid rgba(255,255,255,0.85)", borderRadius: 10, boxShadow: "0 0 0 9999px rgba(0,0,0,0.55)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            {countdown > 0 && (
+              <span style={{ fontSize: 96, fontWeight: 800, color: "#fff", textShadow: "0 2px 24px rgba(0,0,0,0.7)", lineHeight: 1, userSelect: "none" }}>
+                {countdown}
+              </span>
+            )}
+          </div>
         </div>
+      )}
+
+      {/* Flash overlay */}
+      {flash && (
+        <div style={{ position: "absolute", inset: 0, background: "#fff", zIndex: 20, animation: "scan-flash 0.35s ease-out forwards", pointerEvents: "none" }} />
       )}
 
       {/* Cancel */}
@@ -1353,14 +1384,6 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
         onClick={handleClose}
         style={{ position: "absolute", top: 20, right: 20, width: 40, height: 40, borderRadius: "50%", background: "rgba(0,0,0,0.6)", border: "1px solid rgba(255,255,255,0.25)", color: "#fff", fontSize: 20, cursor: "pointer", zIndex: 10, display: "flex", alignItems: "center", justifyContent: "center" }}
       >✕</button>
-
-      {/* Capture button */}
-      {phase === "camera" && (
-        <button
-          onClick={capture}
-          style={{ position: "absolute", bottom: 56, left: "50%", transform: "translateX(-50%)", width: 72, height: 72, borderRadius: "50%", background: "#fff", border: "5px solid rgba(255,255,255,0.35)", cursor: "pointer", zIndex: 10, boxShadow: "0 2px 16px rgba(0,0,0,0.5)" }}
-        />
-      )}
 
       {/* Choice buttons — centered */}
       {phase === "choice" && (
