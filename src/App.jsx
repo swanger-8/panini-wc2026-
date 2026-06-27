@@ -1223,6 +1223,181 @@ function RarityDots({ rarityData }) {
   );
 }
 
+function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const streamRef = useRef(null);
+  const [phase, setPhase] = useState("camera");
+  const [capturedB64, setCapturedB64] = useState(null);
+
+  useEffect(() => {
+    let mounted = true;
+    navigator.mediaDevices
+      .getUserMedia({ video: { facingMode: { ideal: "environment" } }, audio: false })
+      .then(stream => {
+        if (!mounted) { stream.getTracks().forEach(t => t.stop()); return; }
+        streamRef.current = stream;
+        if (videoRef.current) videoRef.current.srcObject = stream;
+      })
+      .catch(() => onClose("error"));
+    return () => {
+      mounted = false;
+      streamRef.current?.getTracks().forEach(t => t.stop());
+    };
+  }, []);
+
+  const stopStream = () => {
+    streamRef.current?.getTracks().forEach(t => t.stop());
+    streamRef.current = null;
+  };
+
+  const capture = () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas) return;
+    canvas.width = video.videoWidth || 640;
+    canvas.height = video.videoHeight || 480;
+    canvas.getContext("2d").drawImage(video, 0, 0);
+    const b64 = canvas.toDataURL("image/jpeg", 0.85).split(",")[1];
+    stopStream();
+    setCapturedB64(b64);
+    setPhase("choice");
+  };
+
+  const callAPI = async (action) => {
+    setPhase("loading");
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY,
+          "anthropic-version": "2023-06-01",
+          "anthropic-dangerous-direct-browser-access": "true",
+        },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-6",
+          max_tokens: 300,
+          messages: [{
+            role: "user",
+            content: [
+              { type: "image", source: { type: "base64", media_type: "image/jpeg", data: capturedB64 } },
+              { type: "text", text: "This is a Panini FIFA World Cup 2026 sticker card. Identify: 1) The player name or card type like Team Logo or Team Photo, 2) The team name, 3) The sticker ID code if visible like ARG17 or USA3, 4) The border color rarity which is one of: base, blue, red, orange, purple, green, gold, black. Return JSON only, no other text, in this exact format: {playerName, team, stickerId, borderColor}" }
+            ]
+          }]
+        })
+      });
+      const data = await res.json();
+      const parsed = JSON.parse(data.content[0].text);
+
+      let sticker = null;
+      if (parsed.stickerId) {
+        sticker = STICKERS.find(s => s.id.toLowerCase() === String(parsed.stickerId).toLowerCase());
+      }
+      if (!sticker && parsed.playerName && parsed.team) {
+        sticker = STICKERS.find(s =>
+          s.label.toLowerCase().includes(parsed.playerName.toLowerCase()) &&
+          s.team.toLowerCase().includes(parsed.team.toLowerCase())
+        );
+      }
+      if (!sticker && parsed.playerName) {
+        sticker = STICKERS.find(s => s.label.toLowerCase().includes(parsed.playerName.toLowerCase()));
+      }
+
+      if (!sticker) { onClose("error"); return; }
+
+      const validRarityIds = ["base", "blue", "red", "orange", "purple", "green", "gold", "black"];
+      const rarityId = validRarityIds.includes(parsed.borderColor) ? parsed.borderColor : "base";
+
+      if (action === "add") onAddToInventory(sticker, rarityId);
+      else onLookUp(sticker);
+    } catch {
+      onClose("error");
+    }
+  };
+
+  const handleClose = () => { stopStream(); onClose(); };
+
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 500, background: "#000" }}>
+      <style>{`@keyframes scan-spin { to { transform: rotate(360deg); } }`}</style>
+
+      {/* Live video */}
+      <video
+        ref={videoRef}
+        autoPlay
+        playsInline
+        muted
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: phase === "camera" ? "block" : "none" }}
+      />
+
+      {/* Captured preview */}
+      {capturedB64 && phase !== "camera" && (
+        <img
+          src={`data:image/jpeg;base64,${capturedB64}`}
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+          alt=""
+        />
+      )}
+
+      {/* Viewfinder */}
+      {phase === "camera" && (
+        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", paddingBottom: 130, pointerEvents: "none" }}>
+          <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 12, marginBottom: 14, letterSpacing: 0.5 }}>Align card inside the frame</p>
+          <div style={{ width: 240, height: 336, border: "2px solid rgba(255,255,255,0.85)", borderRadius: 10, boxShadow: "0 0 0 9999px rgba(0,0,0,0.55)" }} />
+        </div>
+      )}
+
+      {/* Cancel */}
+      <button
+        onClick={handleClose}
+        style={{ position: "absolute", top: 20, right: 20, width: 40, height: 40, borderRadius: "50%", background: "rgba(0,0,0,0.6)", border: "1px solid rgba(255,255,255,0.25)", color: "#fff", fontSize: 20, cursor: "pointer", zIndex: 10, display: "flex", alignItems: "center", justifyContent: "center" }}
+      >✕</button>
+
+      {/* Capture button */}
+      {phase === "camera" && (
+        <button
+          onClick={capture}
+          style={{ position: "absolute", bottom: 56, left: "50%", transform: "translateX(-50%)", width: 72, height: 72, borderRadius: "50%", background: "#fff", border: "5px solid rgba(255,255,255,0.35)", cursor: "pointer", zIndex: 10, boxShadow: "0 2px 16px rgba(0,0,0,0.5)" }}
+        />
+      )}
+
+      {/* Choice buttons — centered */}
+      {phase === "choice" && (
+        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, padding: "0 28px", background: "rgba(0,0,0,0.55)", zIndex: 10 }}>
+          <p style={{ color: "#e8e8f0", fontSize: 15, fontWeight: 600, marginBottom: 4 }}>What do you want to do?</p>
+          <button
+            onClick={() => callAPI("add")}
+            style={{ width: "100%", maxWidth: 320, padding: "18px", borderRadius: 16, border: "none", background: "linear-gradient(90deg,#7b2ff7,#e040fb)", color: "#fff", fontSize: 18, fontWeight: 700, cursor: "pointer" }}
+          >+ Add to Inventory</button>
+          <button
+            onClick={() => callAPI("lookup")}
+            style={{ width: "100%", maxWidth: 320, padding: "18px", borderRadius: 16, border: "1.5px solid rgba(255,255,255,0.4)", background: "rgba(255,255,255,0.1)", color: "#fff", fontSize: 18, fontWeight: 700, cursor: "pointer" }}
+          >🔍 Look Up Card</button>
+        </div>
+      )}
+
+      {/* Loading spinner */}
+      {phase === "loading" && (
+        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.65)", zIndex: 10 }}>
+          <div style={{ width: 52, height: 52, borderRadius: "50%", border: "4px solid #2a2a4a", borderTopColor: "#e040fb", animation: "scan-spin 0.75s linear infinite" }} />
+          <p style={{ color: "#aaaacc", marginTop: 18, fontSize: 14, fontWeight: 500 }}>Identifying card…</p>
+        </div>
+      )}
+
+      <canvas ref={canvasRef} style={{ display: "none" }} />
+    </div>
+  );
+}
+
+function ScanToast({ message, color }) {
+  return (
+    <div style={{ position: "fixed", top: 20, left: "50%", transform: "translateX(-50%)", background: "#13131f", border: `2px solid ${color}`, borderRadius: 14, padding: "13px 20px", color: "#e8e8f0", fontSize: 14, fontWeight: 600, zIndex: 2000, maxWidth: "88vw", textAlign: "center", boxShadow: `0 4px 24px ${color}55`, lineHeight: 1.4 }}>
+      {message}
+    </div>
+  );
+}
+
 // ── PAGE STACK NAVIGATION ──
 // pages: "home" | "team" | "search-results"
 // We keep a stack so back always goes to the previous page
@@ -1354,6 +1529,36 @@ export default function App() {
   };
 
   const completedMilestones = [25, 50, 75, 90, 100].filter(m => pct >= m);
+
+  // ── SCAN FEATURE ──
+  const [scanOpen, setScanOpen] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  const showToast = useCallback((message, color = "#e040fb") => {
+    setToast({ message, color });
+    setTimeout(() => setToast(null), 3000);
+  }, []);
+
+  const handleScanAdd = useCallback((sticker, rarityId) => {
+    setScanOpen(false);
+    const rarity = RARITY_MAP[rarityId] || RARITIES[0];
+    const existing = collected[sticker.id] || {};
+    const newCount = (existing[rarityId] || 0) + 1;
+    handleSave(sticker.id, { ...existing, [rarityId]: newCount });
+    showToast(`Added ${sticker.label} (${sticker.id}) · ${rarity.label} border · You now have ${newCount}`, rarity.color);
+  }, [collected, handleSave, showToast]);
+
+  const handleScanLookUp = useCallback((sticker) => {
+    setScanOpen(false);
+    setModalSticker(sticker);
+  }, []);
+
+  const handleScanClose = useCallback((reason) => {
+    setScanOpen(false);
+    if (reason === "error") {
+      showToast("Could not read card — try better lighting or a closer shot", "#ef4444");
+    }
+  }, [showToast]);
 
   // ── SHARED HEADER (sticky, always visible) ──
   const SharedHeader = ({ title, subtitle, showBack }) => (
@@ -1494,6 +1699,9 @@ export default function App() {
         </div>
 
         {modalSticker && <StickerModal sticker={modalSticker} collectedData={collected} onSave={handleSave} onClose={() => setModalSticker(null)} />}
+        <button onClick={() => setScanOpen(true)} style={{ position: "fixed", bottom: 28, left: "50%", transform: "translateX(-50%)", width: 64, height: 64, borderRadius: "50%", background: "linear-gradient(135deg,#7b2ff7,#e040fb)", border: "none", color: "#fff", fontSize: 28, cursor: "pointer", zIndex: 400, boxShadow: "0 4px 20px rgba(224,64,251,0.5)", display: "flex", alignItems: "center", justifyContent: "center" }}>📷</button>
+        {scanOpen && <ScanOverlay onClose={handleScanClose} onAddToInventory={handleScanAdd} onLookUp={handleScanLookUp} />}
+        {toast && <ScanToast message={toast.message} color={toast.color} />}
       </div>
     );
   }
@@ -1595,6 +1803,9 @@ export default function App() {
       </div>
 
       {modalSticker && <StickerModal sticker={modalSticker} collectedData={collected} onSave={handleSave} onClose={() => setModalSticker(null)} />}
+      <button onClick={() => setScanOpen(true)} style={{ position: "fixed", bottom: 28, left: "50%", transform: "translateX(-50%)", width: 64, height: 64, borderRadius: "50%", background: "linear-gradient(135deg,#7b2ff7,#e040fb)", border: "none", color: "#fff", fontSize: 28, cursor: "pointer", zIndex: 400, boxShadow: "0 4px 20px rgba(224,64,251,0.5)", display: "flex", alignItems: "center", justifyContent: "center" }}>📷</button>
+      {scanOpen && <ScanOverlay onClose={handleScanClose} onAddToInventory={handleScanAdd} onLookUp={handleScanLookUp} />}
+      {toast && <ScanToast message={toast.message} color={toast.color} />}
     </div>
   );
 }
