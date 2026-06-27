@@ -1232,6 +1232,9 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
   const [capturedB64, setCapturedB64] = useState(null);
   const [countdown, setCountdown] = useState(3);
   const [flash, setFlash] = useState(false);
+  const [pendingSticker, setPendingSticker] = useState(null);
+  const [pendingRarity, setPendingRarity] = useState("base");
+  const [correction, setCorrection] = useState("");
 
   useEffect(() => {
     let mounted = true;
@@ -1343,8 +1346,13 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
       const validRarityIds = ["base", "blue", "red", "orange", "purple", "green", "gold", "black"];
       const rarityId = validRarityIds.includes(parsed.borderColor) ? parsed.borderColor : "base";
 
-      if (action === "add") onAddToInventory(sticker, rarityId);
-      else onLookUp(sticker);
+      if (action === "add") {
+        setPendingSticker(sticker);
+        setPendingRarity(rarityId);
+        setPhase("confirm");
+      } else {
+        onLookUp(sticker);
+      }
     } catch (e) {
       console.error("Scan error:", e);
       onClose("error");
@@ -1457,6 +1465,73 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
           >↺ Retake</button>
         </div>
       )}
+
+      {/* Confirm */}
+      {phase === "confirm" && pendingSticker && (
+        <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, padding: "0 28px", background: "rgba(0,0,0,0.82)", zIndex: 10 }}>
+          <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, letterSpacing: 1, textTransform: "uppercase", margin: 0 }}>Is this the right card?</p>
+          <p style={{ color: "#fff", fontSize: 24, fontWeight: 800, margin: 0, textAlign: "center" }}>{pendingSticker.label}</p>
+          <p style={{ color: "#b0a0e0", fontSize: 15, fontWeight: 500, margin: 0 }}>{pendingSticker.team} · {pendingSticker.id}</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%", maxWidth: 320, marginTop: 8 }}>
+            <button
+              onClick={() => onAddToInventory(pendingSticker, pendingRarity)}
+              style={{ padding: "18px", borderRadius: 16, border: "none", background: "linear-gradient(90deg,#7b2ff7,#e040fb)", color: "#fff", fontSize: 18, fontWeight: 700, cursor: "pointer" }}
+            >✓ Yes, add it</button>
+            <button
+              onClick={() => { setCorrection(""); setPhase("correct"); }}
+              style={{ padding: "16px", borderRadius: 16, border: "1.5px solid rgba(255,255,255,0.35)", background: "rgba(255,255,255,0.08)", color: "#fff", fontSize: 16, fontWeight: 600, cursor: "pointer" }}
+            >✎ Wrong player — fix it</button>
+            <button
+              onClick={retake}
+              style={{ padding: "13px", borderRadius: 16, border: "none", background: "transparent", color: "rgba(255,255,255,0.45)", fontSize: 14, fontWeight: 600, cursor: "pointer" }}
+            >↺ Retake</button>
+          </div>
+        </div>
+      )}
+
+      {/* Correct — manual search */}
+      {phase === "correct" && (() => {
+        const q = correction.trim().toLowerCase();
+        const isPlayer = s => s.label !== "Team Logo" && s.label !== "Team Photo";
+        const results = q.length >= 2
+          ? STICKERS.filter(s => isPlayer(s) && (
+              s.label.toLowerCase().includes(q) ||
+              s.team.toLowerCase().includes(q) ||
+              s.id.toLowerCase().includes(q)
+            )).slice(0, 8)
+          : [];
+        return (
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", background: "rgba(0,0,0,0.92)", zIndex: 10, padding: "60px 20px 20px" }}>
+            <p style={{ color: "#e8e8f0", fontSize: 16, fontWeight: 700, margin: "0 0 12px" }}>Who is this player?</p>
+            <input
+              autoFocus
+              value={correction}
+              onChange={e => setCorrection(e.target.value)}
+              placeholder="Type name or team…"
+              style={{ width: "100%", padding: "14px 16px", borderRadius: 12, border: "1.5px solid #3a3a5a", background: "#1a1a2e", color: "#e8e8f0", fontSize: 16, boxSizing: "border-box", outline: "none" }}
+            />
+            <div style={{ marginTop: 12, overflowY: "auto", flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
+              {results.length === 0 && q.length >= 2 && (
+                <p style={{ color: "#666", fontSize: 14, textAlign: "center", marginTop: 24 }}>No matches</p>
+              )}
+              {results.map(s => (
+                <button
+                  key={s.id}
+                  onClick={() => onAddToInventory(s, pendingRarity)}
+                  style={{ textAlign: "left", padding: "14px 16px", borderRadius: 12, border: "1px solid #2a2a4a", background: "#13131f", color: "#e8e8f0", cursor: "pointer", display: "flex", flexDirection: "column", gap: 2 }}
+                >
+                  <span style={{ fontWeight: 700, fontSize: 15 }}>{s.label}</span>
+                  <span style={{ color: "#7a6aaa", fontSize: 13 }}>{s.team} · {s.id}</span>
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => setPhase("confirm")}
+              style={{ marginTop: 12, padding: "13px", borderRadius: 12, border: "none", background: "transparent", color: "rgba(255,255,255,0.4)", fontSize: 14, cursor: "pointer" }}
+            >← Back</button>
+          </div>
+        );
+      })()}
 
       {/* Not found */}
       {phase === "notfound" && (
