@@ -1771,7 +1771,7 @@ export default function App() {
   const BottomNav = () => (
     <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 400, pointerEvents: "none" }}>
       {/* Bar */}
-      <div style={{ borderRadius: "24px 24px 0 0", height: 68, background: "linear-gradient(180deg, #e8d5a3 0%, #d4b97a 100%)", borderTop: "2px solid #8b7448", boxShadow: "0 -4px 0 #3b2516, inset 0 1px 0 rgba(255,240,200,0.6)", pointerEvents: "auto" }} />
+      <div style={{ borderRadius: "24px 24px 0 0", height: 68, backgroundImage: "url('/nav-bg.png')", backgroundSize: "cover", backgroundPosition: "center", boxShadow: "0 -4px 0 #3b2516", pointerEvents: "auto" }} />
       {/* Elevated RIP button */}
       <button
         onClick={() => setScanOpen(true)}
@@ -1859,7 +1859,7 @@ export default function App() {
 
         {/* Global search */}
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "12px 16px 8px" }}>
-          <div style={{ position: "relative", background: "linear-gradient(180deg, #efe1bd 0%, #e2cc96 100%)", border: "1.5px solid #8b7448", borderRadius: 10, boxShadow: "0 4px 0 #3b2516, inset 0 2px 4px rgba(59,37,22,0.12)", height: 48 }} ref={searchRef}>
+          <div style={{ position: "relative", backgroundImage: "url('/search-bg.png')", backgroundSize: "cover", backgroundPosition: "center", borderRadius: 10, boxShadow: "0 4px 0 #3b2516", height: 48 }} ref={searchRef}>
             <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, color: "#7c5631", pointerEvents: "none" }}>🔍</span>
             <input
               placeholder="Search any player, team, or sticker code..."
