@@ -1771,7 +1771,7 @@ export default function App() {
   const BottomNav = () => (
     <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 400, pointerEvents: "none" }}>
       {/* Bar */}
-      <div style={{ background: "rgba(18,16,11,0.97)", backdropFilter: "blur(20px)", borderTop: "1px solid rgba(159,33,27,0.3)", borderRadius: "24px 24px 0 0", height: 68, display: "flex", justifyContent: "center", alignItems: "center", pointerEvents: "auto" }} />
+      <div style={{ backgroundImage: "url('/nav-bg.png')", backgroundSize: "cover", backgroundPosition: "center top", borderRadius: "24px 24px 0 0", height: 68, display: "flex", justifyContent: "center", alignItems: "center", pointerEvents: "auto" }} />
       {/* Elevated RIP button */}
       <button
         onClick={() => setScanOpen(true)}
@@ -1814,7 +1814,7 @@ export default function App() {
   // ── HOME STATS PANEL (tilted parchment card) ──
   const HomeStatsPanel = () => (
     <div style={{ maxWidth: 500, margin: "14px auto 0", padding: "0 16px" }}>
-      <div style={{ background: "#ead8ad", border: "4px solid #7c5631", borderRadius: 14, boxShadow: "0 8px 0 #3b2516", padding: "16px 18px", transform: "rotate(-1deg)" }}>
+      <div style={{ backgroundImage: "url('/stats-bg.png')", backgroundSize: "cover", backgroundPosition: "center", border: "none", borderRadius: 14, boxShadow: "0 8px 0 #3b2516", padding: "16px 18px", transform: "rotate(-1deg)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 10 }}>
           <div>
             <div style={{ fontSize: 48, fontWeight: 900, color: "#9f211b", lineHeight: 1 }}>{collectedCount}</div>
@@ -1847,9 +1847,9 @@ export default function App() {
   if (currentPage.page === "home") {
     return (
       <div style={{ fontFamily: "'Oswald', sans-serif", minHeight: "100vh", color: "#ead8ad", paddingBottom: 88, position: "relative" }}>
-        {/* Background — swap gradient for image once bg.jpg is uploaded to public/ */}
-        <div style={{ position: "fixed", inset: 0, zIndex: 0, background: "url('/bg.jpg') center/cover no-repeat, radial-gradient(circle at top, #3b2414 0%, #111 60%) #12100b" }} />
-        <div style={{ position: "fixed", inset: 0, zIndex: 0, background: "rgba(18,16,11,0.55)" }} />
+        {/* Background */}
+        <div style={{ position: "fixed", inset: 0, zIndex: 0, backgroundImage: "url('/6ffb6e0a335b5bf84a5db2a9f6cacf94_1_1782749614_9361.png')", backgroundSize: "cover", backgroundPosition: "center" }} />
+        <div style={{ position: "fixed", inset: 0, zIndex: 0, background: "rgba(18,16,11,0.45)" }} />
         <div style={{ position: "relative", zIndex: 1 }}>
         <SharedHeader title="Rip &amp; Track" subtitle="" showBack={false} />
         <HomeStatsPanel />
@@ -1863,7 +1863,7 @@ export default function App() {
               value={globalSearch}
               onChange={e => { setGlobalSearch(e.target.value); setShowDropdown(true); }}
               onFocus={() => setShowDropdown(true)}
-              style={{ width: "100%", padding: "11px 36px 11px 36px", borderRadius: 10, border: "4px solid #7c5631", background: "#ead8ad", color: "#1d160f", fontSize: 14, outline: "none", boxSizing: "border-box", boxShadow: "0 6px 0 #3b2516" }}
+              style={{ width: "100%", padding: "11px 36px 11px 36px", borderRadius: 10, border: "none", backgroundImage: "url('/search-bg.png')", backgroundSize: "100% 100%", color: "#1d160f", fontSize: 14, outline: "none", boxSizing: "border-box", boxShadow: "0 4px 0 #3b2516" }}
             />
             {globalSearch && (
               <button onClick={() => { setGlobalSearch(""); setShowDropdown(false); }} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "#6b5a42", fontSize: 16, cursor: "pointer" }}>✕</button>
@@ -1914,7 +1914,7 @@ export default function App() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
             {teamStats.map(({ team, total, have, pct: tp }) => (
               <div key={team} onClick={() => { setFilterSearch(""); setShowMissing(false); navigate("team", { team }); }}
-                style={{ background: tp === 100 ? "#f5e8c8" : "#ead8ad", border: `3px solid ${tp === 100 ? "#9f211b" : "#7c5631"}`, borderRadius: 12, boxShadow: "0 5px 0 #3b2516", padding: "12px 10px", cursor: "pointer", display: "flex", flexDirection: "column", gap: 6, alignItems: "center" }}>
+                style={{ backgroundImage: "url('/card-bg.png')", backgroundSize: "cover", backgroundPosition: "center", border: tp === 100 ? "3px solid #9f211b" : "none", borderRadius: 12, boxShadow: "0 5px 0 #3b2516", padding: "12px 10px", cursor: "pointer", display: "flex", flexDirection: "column", gap: 6, alignItems: "center" }}>
                 <div style={{ fontSize: 36, lineHeight: 1 }}>
                   {TEAM_FLAGS[team] || "🏳️"}
                 </div>
