@@ -1769,19 +1769,14 @@ export default function App() {
 
   // ── BOTTOM NAV BAR ──
   const BottomNav = () => (
-    <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 400, pointerEvents: "none" }}>
-      {/* Bar */}
-      <div style={{ borderRadius: "24px 24px 0 0", height: 68, backgroundImage: "url('/nav-bg.png')", backgroundSize: "cover", backgroundPosition: "center", boxShadow: "0 -4px 0 #3b2516", pointerEvents: "auto" }} />
-      {/* Elevated RIP button */}
-      <button
-        onClick={() => setScanOpen(true)}
-        style={{ position: "absolute", bottom: 18, left: "50%", transform: "translateX(-50%)", width: 84, height: 84, borderRadius: "50%", border: "none", background: "none", cursor: "pointer", padding: 0, pointerEvents: "auto", animation: "pulse-btn 2s ease-in-out infinite", filter: "drop-shadow(0 4px 16px rgba(159,33,27,0.6))" }}
-      >
-        <img src="/rip-btn.png" alt="Scan" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "50%" }} />
-      </button>
-      {/* RIP A PACK label */}
-      <div style={{ position: "absolute", bottom: 26, left: "calc(50% + 52px)", pointerEvents: "none" }}>
-        <span style={{ fontSize: 11, fontWeight: 700, color: "#3b2516", letterSpacing: "0.08em", textTransform: "uppercase", opacity: 0.85 }}>← RIP A PACK</span>
+    <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 400 }}>
+      <div style={{ borderRadius: "24px 24px 0 0", height: 68, backgroundImage: "url('/nav-bg.png')", backgroundSize: "cover", backgroundPosition: "center", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <button
+          onClick={() => setScanOpen(true)}
+          style={{ width: 52, height: 52, borderRadius: "50%", border: "none", background: "none", cursor: "pointer", padding: 0, animation: "pulse-btn 2s ease-in-out infinite", filter: "drop-shadow(0 2px 8px rgba(159,33,27,0.5))" }}
+        >
+          <img src="/rip-btn.png" alt="Scan" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "50%" }} />
+        </button>
       </div>
     </div>
   );
@@ -1814,7 +1809,7 @@ export default function App() {
   // ── HOME STATS PANEL (tilted parchment card) ──
   const HomeStatsPanel = () => (
     <div style={{ maxWidth: 500, margin: "14px auto 0", padding: "0 16px" }}>
-      <div style={{ backgroundImage: "url('/stats-bg.png')", backgroundSize: "cover", backgroundPosition: "center", border: "none", borderRadius: 14, boxShadow: "0 8px 0 #3b2516", padding: "16px 18px", transform: "rotate(-1deg)" }}>
+      <div style={{ backgroundImage: "url('/stats-bg.png')", backgroundSize: "cover", backgroundPosition: "center", border: "none", borderRadius: 14, padding: "16px 18px", transform: "rotate(-1deg)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 10 }}>
           <div>
             <div style={{ fontSize: 48, fontWeight: 900, color: "#9f211b", lineHeight: 1 }}>{collectedCount}</div>
@@ -1853,13 +1848,13 @@ export default function App() {
         <div style={{ position: "relative", zIndex: 1 }}>
         {/* Logo — not sticky, scrolls with page */}
         <div style={{ display: "flex", justifyContent: "center", paddingTop: 48, paddingBottom: 4 }}>
-          <img src="/logo.png" alt="Rip & Track" style={{ height: 90, width: "auto", objectFit: "contain" }} />
+          <img src="/logo.png" alt="Rip & Track" style={{ height: 160, width: "auto", objectFit: "contain" }} />
         </div>
         <HomeStatsPanel />
 
         {/* Global search */}
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "12px 16px 8px" }}>
-          <div style={{ position: "relative", backgroundImage: "url('/search-bg.png')", backgroundSize: "cover", backgroundPosition: "center", borderRadius: 10, boxShadow: "0 4px 0 #3b2516", height: 48 }} ref={searchRef}>
+          <div style={{ position: "relative", backgroundImage: "url('/search-bg.png')", backgroundSize: "cover", backgroundPosition: "center", borderRadius: 10, height: 48 }} ref={searchRef}>
             <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, color: "#7c5631", pointerEvents: "none" }}>🔍</span>
             <input
               placeholder="Search any player, team, or sticker code..."
@@ -1910,19 +1905,19 @@ export default function App() {
         {/* Team grid */}
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "14px 16px 48px" }}>
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 14 }}>
-            <img src="/browse-banner.png" alt="Browse Teams" style={{ maxWidth: "100%", height: "auto", objectFit: "contain", filter: "drop-shadow(0 4px 0 #3b2516)" }} />
+            <img src="/browse-banner.png" alt="Browse Teams" style={{ maxWidth: "100%", height: "auto", objectFit: "contain" }} />
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
             {teamStats.map(({ team, total, have, pct: tp }) => (
               <div key={team} onClick={() => { setFilterSearch(""); setShowMissing(false); navigate("team", { team }); }}
-                style={{ backgroundImage: "url('/card-bg.png')", backgroundSize: "cover", backgroundPosition: "center", border: tp === 100 ? "3px solid #9f211b" : "none", borderRadius: 12, boxShadow: "0 5px 0 #3b2516", padding: "12px 10px", cursor: "pointer", display: "flex", flexDirection: "column", gap: 6, alignItems: "center" }}>
-                <div style={{ fontSize: 36, lineHeight: 1 }}>
+                style={{ backgroundImage: "url('/card-bg.png')", backgroundSize: "cover", backgroundPosition: "center", borderRadius: 12, padding: "10px 8px", cursor: "pointer", display: "flex", flexDirection: "column", gap: 4, alignItems: "center" }}>
+                <div style={{ fontSize: 28, lineHeight: 1 }}>
                   {TEAM_FLAGS[team] || "🏳️"}
                 </div>
-                <div style={{ fontSize: 11, fontWeight: 700, color: "#1d160f", textTransform: "uppercase", textAlign: "center", lineHeight: 1.2, wordBreak: "break-word" }}>
+                <div style={{ fontSize: 10, fontWeight: 700, color: "#1d160f", textTransform: "uppercase", textAlign: "center", lineHeight: 1.2, wordBreak: "break-word", width: "100%" }}>
                   {team === "FWC" ? "Tournament" : team}
                 </div>
-                <div style={{ width: "100%", background: "#c8b98d", border: "1px solid #8b7448", borderRadius: 999, height: 5, overflow: "hidden" }}>
+                <div style={{ width: "100%", background: "#c8b98d", borderRadius: 999, height: 4, overflow: "hidden" }}>
                   <div style={{ height: "100%", width: `${tp}%`, background: tp === 100 ? "#22c55e" : "#9f211b", borderRadius: 999 }} />
                 </div>
                 <span style={{ fontSize: 10, color: "#6b5a42", fontWeight: 700 }}>{have}/{total}</span>
