@@ -1152,49 +1152,49 @@ function StickerModal({ sticker, collectedData, onSave, onClose }) {
   };
 
   return (
-    <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", backdropFilter: "blur(8px)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
-      <div style={{ background: "#0d0d1a", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 24, padding: 24, width: "100%", maxWidth: 400, maxHeight: "90vh", overflowY: "auto" }}>
+    <div style={{ position: "fixed", inset: 0, background: "rgba(18,16,11,0.9)", backdropFilter: "blur(8px)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+      <div style={{ background: "#ead8ad", border: "4px solid #7c5631", borderRadius: 24, boxShadow: "0 8px 0 #3b2516", padding: 24, width: "100%", maxWidth: 400, maxHeight: "90vh", overflowY: "auto" }}>
         {/* Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
           <div>
-            <div style={{ fontSize: 11, color: "#C9A84C", fontWeight: 600, letterSpacing: 2, textTransform: "uppercase" }}>{sticker.id} · {sticker.team}</div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: "#fff", marginTop: 2 }}>{sticker.label}</div>
-            {sticker.foil && <div style={{ fontSize: 11, color: "#d4af37", marginTop: 2 }}>✦ FOIL sticker</div>}
+            <div style={{ fontSize: 11, color: "#9f211b", fontWeight: 700, letterSpacing: 2, textTransform: "uppercase" }}>{sticker.id} · {sticker.team}</div>
+            <div style={{ fontSize: 22, fontWeight: 700, color: "#1d160f", marginTop: 2 }}>{sticker.label}</div>
+            {sticker.foil && <div style={{ fontSize: 11, color: "#7c5631", marginTop: 2 }}>✦ FOIL sticker</div>}
           </div>
-          <button onClick={onClose} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.4)", fontSize: 20, cursor: "pointer", lineHeight: 1, padding: 4 }}>✕</button>
+          <button onClick={onClose} style={{ background: "none", border: "none", color: "#9f211b", fontSize: 20, cursor: "pointer", lineHeight: 1, padding: 4 }}>✕</button>
         </div>
 
-        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginBottom: 12 }}>
+        <div style={{ fontSize: 12, color: "#6b5a42", marginBottom: 12 }}>
           How many of each border color do you have?
         </div>
 
         {/* Rarity rows */}
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {RARITIES.map(r => (
-            <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 10, background: counts[r.id] > 0 ? `${r.color}11` : "rgba(255,255,255,0.03)", borderRadius: 12, padding: "10px 12px", border: `1px solid ${counts[r.id] > 0 ? r.color : "rgba(255,255,255,0.06)"}` }}>
+            <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 10, background: counts[r.id] > 0 ? `${r.color}22` : "rgba(124,86,49,0.08)", borderRadius: 12, padding: "10px 12px", border: `2px solid ${counts[r.id] > 0 ? r.color : "#c8b98d"}` }}>
               {/* Color swatch */}
-              <div style={{ width: 18, height: 18, borderRadius: 6, background: r.hex, border: "1.5px solid rgba(255,255,255,0.2)", flexShrink: 0 }} />
+              <div style={{ width: 18, height: 18, borderRadius: 6, background: r.hex, border: "1.5px solid #7c5631", flexShrink: 0 }} />
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: counts[r.id] > 0 ? r.color : "rgba(255,255,255,0.45)" }}>{r.label}</div>
-                {r.id === "base" && <div style={{ fontSize: 10, color: "rgba(255,255,255,0.15)" }}>Standard sticker</div>}
-                {r.id === "blue" && <div style={{ fontSize: 10, color: "rgba(255,255,255,0.15)" }}>1:2 packs</div>}
-                {r.id === "red" && <div style={{ fontSize: 10, color: "rgba(255,255,255,0.15)" }}>1:25 packs</div>}
-                {r.id === "orange" && <div style={{ fontSize: 10, color: "rgba(255,255,255,0.15)" }}>Amazon exclusive</div>}
-                {r.id === "purple" && <div style={{ fontSize: 10, color: "rgba(255,255,255,0.15)" }}>1:200 packs</div>}
-                {r.id === "green" && <div style={{ fontSize: 10, color: "rgba(255,255,255,0.15)" }}>1:1,400 packs</div>}
-                {r.id === "gold" && <div style={{ fontSize: 10, color: "rgba(255,255,255,0.15)" }}>iCollect exclusive</div>}
-                {r.id === "black" && <div style={{ fontSize: 10, color: "rgba(255,255,255,0.15)" }}>1/1 — ultra rare</div>}
+                <div style={{ fontSize: 13, fontWeight: 700, color: counts[r.id] > 0 ? r.color : "#6b5a42" }}>{r.label}</div>
+                {r.id === "base" && <div style={{ fontSize: 10, color: "#8b7448" }}>Standard sticker</div>}
+                {r.id === "blue" && <div style={{ fontSize: 10, color: "#8b7448" }}>1:2 packs</div>}
+                {r.id === "red" && <div style={{ fontSize: 10, color: "#8b7448" }}>1:25 packs</div>}
+                {r.id === "orange" && <div style={{ fontSize: 10, color: "#8b7448" }}>Amazon exclusive</div>}
+                {r.id === "purple" && <div style={{ fontSize: 10, color: "#8b7448" }}>1:200 packs</div>}
+                {r.id === "green" && <div style={{ fontSize: 10, color: "#8b7448" }}>1:1,400 packs</div>}
+                {r.id === "gold" && <div style={{ fontSize: 10, color: "#8b7448" }}>iCollect exclusive</div>}
+                {r.id === "black" && <div style={{ fontSize: 10, color: "#8b7448" }}>1/1 — ultra rare</div>}
               </div>
               {/* Counter */}
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <button
                   onClick={() => adjust(r.id, -1)}
-                  style={{ width: 32, height: 32, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.1)", background: "#080810", color: "rgba(255,255,255,0.7)", fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+                  style={{ width: 32, height: 32, borderRadius: "50%", border: "2px solid #7c5631", background: "#ead8ad", color: "#1d160f", fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
                 >−</button>
-                <span style={{ fontSize: 16, fontWeight: 700, color: counts[r.id] > 0 ? r.color : "rgba(255,255,255,0.2)", minWidth: 20, textAlign: "center" }}>{counts[r.id]}</span>
+                <span style={{ fontSize: 16, fontWeight: 700, color: counts[r.id] > 0 ? r.color : "#8b7448", minWidth: 20, textAlign: "center" }}>{counts[r.id]}</span>
                 <button
                   onClick={() => adjust(r.id, 1)}
-                  style={{ width: 32, height: 32, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.1)", background: "#080810", color: "rgba(255,255,255,0.7)", fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+                  style={{ width: 32, height: 32, borderRadius: "50%", border: "2px solid #7c5631", background: "#ead8ad", color: "#1d160f", fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
                 >+</button>
               </div>
             </div>
@@ -1202,20 +1202,20 @@ function StickerModal({ sticker, collectedData, onSave, onClose }) {
         </div>
 
         {/* Total summary */}
-        <div style={{ marginTop: 14, padding: "10px 12px", background: "rgba(255,255,255,0.03)", borderRadius: 10, border: "1px solid rgba(255,255,255,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontSize: 13, color: "rgba(255,255,255,0.45)" }}>Total cards for this sticker</span>
-          <span style={{ fontSize: 18, fontWeight: 700, color: totalCards > 0 ? "#C9A84C" : "rgba(255,255,255,0.2)" }}>{totalCards}</span>
+        <div style={{ marginTop: 14, padding: "10px 12px", background: "rgba(124,86,49,0.1)", borderRadius: 10, border: "1px solid #8b7448", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <span style={{ fontSize: 13, color: "#6b5a42" }}>Total cards for this sticker</span>
+          <span style={{ fontSize: 18, fontWeight: 700, color: totalCards > 0 ? "#9f211b" : "#8b7448" }}>{totalCards}</span>
         </div>
 
         {/* Actions */}
         <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
           <button
             onClick={onClose}
-            style={{ flex: 1, padding: "14px", borderRadius: 12, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.6)", fontSize: 15, cursor: "pointer" }}
+            style={{ flex: 1, padding: "14px", borderRadius: 12, border: "2px solid #7c5631", background: "#ead8ad", color: "#6b5a42", fontSize: 15, cursor: "pointer" }}
           >Cancel</button>
           <button
             onClick={handleSave}
-            style={{ flex: 2, padding: "14px", borderRadius: 12, border: "none", background: "linear-gradient(135deg,#C9A84C,#f0d080)", color: "#080810", fontSize: 15, fontWeight: 800, cursor: "pointer" }}
+            style={{ flex: 2, padding: "14px", borderRadius: 12, border: "none", background: "#9f211b", color: "#ead8ad", fontSize: 15, fontWeight: 700, cursor: "pointer" }}
           >Save</button>
         </div>
       </div>
@@ -1443,14 +1443,14 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
       {phase === "camera" && (
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", pointerEvents: "none" }}>
           <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 13, marginBottom: 14, letterSpacing: 0.5 }}>Align card inside the frame</p>
-          <div style={{ position: "relative", width: 240, height: 336, border: "2px solid rgba(201,168,76,0.7)", borderRadius: 12, boxShadow: "0 0 0 9999px rgba(0,0,0,0.55)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ position: "relative", width: 240, height: 336, border: "2px solid rgba(159,33,27,0.7)", borderRadius: 12, boxShadow: "0 0 0 9999px rgba(0,0,0,0.55)", display: "flex", alignItems: "center", justifyContent: "center" }}>
             {/* Corner brackets */}
-            <div style={{ position: "absolute", top: -2, left: -2, width: 20, height: 20, borderTop: "2px solid #C9A84C", borderLeft: "2px solid #C9A84C", borderRadius: "2px 0 0 0" }} />
-            <div style={{ position: "absolute", top: -2, right: -2, width: 20, height: 20, borderTop: "2px solid #C9A84C", borderRight: "2px solid #C9A84C", borderRadius: "0 2px 0 0" }} />
-            <div style={{ position: "absolute", bottom: -2, left: -2, width: 20, height: 20, borderBottom: "2px solid #C9A84C", borderLeft: "2px solid #C9A84C", borderRadius: "0 0 0 2px" }} />
-            <div style={{ position: "absolute", bottom: -2, right: -2, width: 20, height: 20, borderBottom: "2px solid #C9A84C", borderRight: "2px solid #C9A84C", borderRadius: "0 0 2px 0" }} />
+            <div style={{ position: "absolute", top: -2, left: -2, width: 20, height: 20, borderTop: "2px solid #9f211b", borderLeft: "2px solid #9f211b", borderRadius: "2px 0 0 0" }} />
+            <div style={{ position: "absolute", top: -2, right: -2, width: 20, height: 20, borderTop: "2px solid #9f211b", borderRight: "2px solid #9f211b", borderRadius: "0 2px 0 0" }} />
+            <div style={{ position: "absolute", bottom: -2, left: -2, width: 20, height: 20, borderBottom: "2px solid #9f211b", borderLeft: "2px solid #9f211b", borderRadius: "0 0 0 2px" }} />
+            <div style={{ position: "absolute", bottom: -2, right: -2, width: 20, height: 20, borderBottom: "2px solid #9f211b", borderRight: "2px solid #9f211b", borderRadius: "0 0 2px 0" }} />
             {countdown > 0 && (
-              <span style={{ fontSize: 88, fontWeight: 900, color: "#fff", textShadow: "0 0 40px rgba(201,168,76,0.8)", lineHeight: 1, userSelect: "none" }}>
+              <span style={{ fontSize: 88, fontWeight: 900, color: "#9f211b", textShadow: "0 0 40px rgba(159,33,27,0.8)", lineHeight: 1, userSelect: "none" }}>
                 {countdown}
               </span>
             )}
@@ -1472,14 +1472,14 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
       {/* Choice buttons — centered */}
       {phase === "choice" && (
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, padding: "0 28px", background: "rgba(0,0,0,0.55)", zIndex: 10 }}>
-          <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 13, fontWeight: 600, marginBottom: 4, letterSpacing: 1, textTransform: "uppercase" }}>What do you want to do?</p>
+          <p style={{ color: "#ead8ad", fontSize: 13, fontWeight: 600, marginBottom: 4, letterSpacing: 1, textTransform: "uppercase" }}>What do you want to do?</p>
           <button
             onClick={() => callAPI("add")}
-            style={{ width: "100%", maxWidth: 320, padding: "16px", borderRadius: 14, border: "none", background: "linear-gradient(135deg,#C9A84C,#f0d080)", color: "#080810", fontSize: 16, fontWeight: 800, cursor: "pointer" }}
+            style={{ width: "100%", maxWidth: 320, padding: "16px", borderRadius: 14, border: "none", background: "#9f211b", color: "#ead8ad", fontSize: 16, fontWeight: 700, cursor: "pointer" }}
           >+ Add to Inventory</button>
           <button
             onClick={() => callAPI("lookup")}
-            style={{ width: "100%", maxWidth: 320, padding: "16px", borderRadius: 14, border: "1.5px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.08)", color: "#fff", fontSize: 16, fontWeight: 700, cursor: "pointer" }}
+            style={{ width: "100%", maxWidth: 320, padding: "16px", borderRadius: 14, border: "2px solid #7c5631", background: "#ead8ad", color: "#1d160f", fontSize: 16, fontWeight: 700, cursor: "pointer" }}
           >🔍 Look Up Card</button>
           <button
             onClick={retake}
@@ -1491,17 +1491,17 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
       {/* Confirm */}
       {phase === "confirm" && pendingSticker && (
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12, padding: "0 28px", background: "rgba(0,0,0,0.82)", zIndex: 10 }}>
-          <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", margin: 0 }}>Is this the right card?</p>
-          <p style={{ color: "#fff", fontSize: 28, fontWeight: 900, margin: 0, textAlign: "center" }}>{pendingSticker.label}</p>
-          <p style={{ color: "#C9A84C", fontSize: 15, fontWeight: 500, margin: 0 }}>{pendingSticker.team} · {pendingSticker.id}</p>
+          <p style={{ color: "#ead8ad", fontSize: 11, letterSpacing: 3, textTransform: "uppercase", margin: 0 }}>Is this the right card?</p>
+          <p style={{ color: "#ead8ad", fontSize: 28, fontWeight: 700, margin: 0, textAlign: "center" }}>{pendingSticker.label}</p>
+          <p style={{ color: "#9f211b", fontSize: 15, fontWeight: 500, margin: 0 }}>{pendingSticker.team} · {pendingSticker.id}</p>
           <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%", maxWidth: 320, marginTop: 8 }}>
             <button
               onClick={() => onAddToInventory(pendingSticker, pendingRarity)}
-              style={{ padding: "16px", borderRadius: 14, border: "none", background: "linear-gradient(135deg,#C9A84C,#f0d080)", color: "#080810", fontSize: 16, fontWeight: 800, cursor: "pointer" }}
+              style={{ padding: "16px", borderRadius: 14, border: "none", background: "#9f211b", color: "#ead8ad", fontSize: 16, fontWeight: 700, cursor: "pointer" }}
             >✓ Yes, add it</button>
             <button
               onClick={() => { setCorrection(""); setPhase("correct"); }}
-              style={{ padding: "16px", borderRadius: 14, border: "1.5px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.08)", color: "#fff", fontSize: 16, fontWeight: 700, cursor: "pointer" }}
+              style={{ padding: "16px", borderRadius: 14, border: "2px solid #7c5631", background: "#ead8ad", color: "#1d160f", fontSize: 16, fontWeight: 700, cursor: "pointer" }}
             >✎ Wrong player — fix it</button>
             <button
               onClick={retake}
@@ -1523,20 +1523,20 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
             )).slice(0, 8)
           : [];
         return (
-          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", background: "rgba(0,0,0,0.92)", zIndex: 10, padding: "60px 20px 20px" }}>
-            <p style={{ color: "#e8e8f0", fontSize: 16, fontWeight: 700, margin: "0 0 4px" }}>
+          <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", background: "rgba(18,16,11,0.95)", zIndex: 10, padding: "60px 20px 20px" }}>
+            <p style={{ color: "#ead8ad", fontSize: 16, fontWeight: 700, margin: "0 0 4px" }}>
               {pendingSticker ? "Who is this player?" : "Search for the card manually"}
             </p>
             {apiError && (
               <p style={{ color: "#f87171", fontSize: 12, margin: "0 0 6px", background: "rgba(239,68,68,0.15)", padding: "6px 10px", borderRadius: 8 }}>{apiError}</p>
             )}
-            <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, margin: "0 0 12px" }}>Type player name, team, or sticker code</p>
+            <p style={{ color: "rgba(234,216,173,0.5)", fontSize: 13, margin: "0 0 12px" }}>Type player name, team, or sticker code</p>
             <input
               autoFocus
               value={correction}
               onChange={e => setCorrection(e.target.value)}
               placeholder="Type name or team…"
-              style={{ width: "100%", padding: "14px 16px", borderRadius: 12, border: "1.5px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.05)", color: "#e8e8f0", fontSize: 16, boxSizing: "border-box", outline: "none" }}
+              style={{ width: "100%", padding: "14px 16px", borderRadius: 12, border: "2px solid #7c5631", background: "#ead8ad", color: "#1d160f", fontSize: 16, boxSizing: "border-box", outline: "none" }}
             />
             <div style={{ marginTop: 12, overflowY: "auto", flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
               {results.length === 0 && q.length >= 2 && (
@@ -1546,22 +1546,22 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
                 <button
                   key={s.id}
                   onClick={() => onAddToInventory(s, pendingRarity)}
-                  style={{ textAlign: "left", padding: "14px 16px", borderRadius: 12, border: "1px solid rgba(201,168,76,0.12)", background: "rgba(255,255,255,0.04)", color: "#e8e8f0", cursor: "pointer", display: "flex", flexDirection: "column", gap: 2 }}
+                  style={{ textAlign: "left", padding: "14px 16px", borderRadius: 12, border: "2px solid #7c5631", background: "#ead8ad", color: "#1d160f", cursor: "pointer", display: "flex", flexDirection: "column", gap: 2 }}
                 >
                   <span style={{ fontWeight: 700, fontSize: 15 }}>{s.label}</span>
-                  <span style={{ color: "#C9A84C", fontSize: 13 }}>{s.team} · {s.id}</span>
+                  <span style={{ color: "#9f211b", fontSize: 13 }}>{s.team} · {s.id}</span>
                 </button>
               ))}
             </div>
             <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
               <button
                 onClick={retake}
-                style={{ flex: 1, padding: "13px", borderRadius: 12, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.5)", fontSize: 14, cursor: "pointer" }}
+                style={{ flex: 1, padding: "13px", borderRadius: 12, border: "2px solid #7c5631", background: "#ead8ad", color: "#6b5a42", fontSize: 14, cursor: "pointer" }}
               >↺ Retake</button>
               {pendingSticker && (
                 <button
                   onClick={() => setPhase("confirm")}
-                  style={{ flex: 1, padding: "13px", borderRadius: 12, border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.5)", fontSize: 14, cursor: "pointer" }}
+                  style={{ flex: 1, padding: "13px", borderRadius: 12, border: "2px solid #7c5631", background: "#ead8ad", color: "#6b5a42", fontSize: 14, cursor: "pointer" }}
                 >← Back</button>
               )}
             </div>
@@ -1572,8 +1572,8 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
       {/* Loading spinner */}
       {phase === "loading" && (
         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.65)", zIndex: 10 }}>
-          <div style={{ width: 52, height: 52, borderRadius: "50%", border: "4px solid rgba(255,255,255,0.1)", borderTopColor: "#C9A84C", animation: "scan-spin 0.75s linear infinite" }} />
-          <p style={{ color: "rgba(255,255,255,0.5)", marginTop: 18, fontSize: 14, fontWeight: 500 }}>Identifying card…</p>
+          <div style={{ width: 52, height: 52, borderRadius: "50%", border: "4px solid rgba(234,216,173,0.2)", borderTopColor: "#9f211b", animation: "scan-spin 0.75s linear infinite" }} />
+          <p style={{ color: "#ead8ad", marginTop: 18, fontSize: 14, fontWeight: 500 }}>Identifying card…</p>
         </div>
       )}
 
@@ -1584,7 +1584,7 @@ function ScanOverlay({ onClose, onAddToInventory, onLookUp }) {
 
 function ScanToast({ message, color }) {
   return (
-    <div style={{ position: "fixed", top: 20, left: 16, right: 16, background: "rgba(8,8,16,0.95)", backdropFilter: "blur(20px)", border: "1px solid rgba(201,168,76,0.3)", borderRadius: 14, padding: "14px 16px", color: "#fff", fontWeight: 600, fontSize: 14, zIndex: 2000, textAlign: "center", boxShadow: "0 4px 24px rgba(0,0,0,0.5)" }}>
+    <div style={{ position: "fixed", top: 20, left: 16, right: 16, background: "#ead8ad", border: "3px solid #7c5631", borderRadius: 14, padding: "14px 16px", color: "#1d160f", fontWeight: 700, fontSize: 14, zIndex: 2000, textAlign: "center", boxShadow: "0 4px 0 #3b2516" }}>
       {message}
     </div>
   );
@@ -1598,8 +1598,9 @@ export default function App() {
   useEffect(() => {
     const s = document.createElement("style");
     s.textContent = `
-      :root { --bg:#080810; --gold:#C9A84C; --gold-glow:rgba(201,168,76,0.4); }
-      body { background:#080810; margin:0; }
+      @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&display=swap");
+      :root { --bg:#12100b; --red:#9f211b; --parchment:#ead8ad; --brown:#7c5631; }
+      body { background:#12100b; margin:0; font-family: 'Oswald', sans-serif; }
       @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
       @keyframes pulse-btn { 0%,100%{transform:translateX(-50%) scale(1)} 50%{transform:translateX(-50%) scale(1.04)} }
       @keyframes scan-spin { to{transform:rotate(360deg)} }
@@ -1770,11 +1771,11 @@ export default function App() {
   const BottomNav = () => (
     <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 400, pointerEvents: "none" }}>
       {/* Bar */}
-      <div style={{ background: "rgba(8,8,16,0.97)", backdropFilter: "blur(20px)", borderTop: "1px solid rgba(201,168,76,0.15)", borderRadius: "24px 24px 0 0", height: 68, display: "flex", justifyContent: "center", alignItems: "center", pointerEvents: "auto" }} />
+      <div style={{ background: "rgba(18,16,11,0.97)", backdropFilter: "blur(20px)", borderTop: "1px solid rgba(159,33,27,0.3)", borderRadius: "24px 24px 0 0", height: 68, display: "flex", justifyContent: "center", alignItems: "center", pointerEvents: "auto" }} />
       {/* Elevated RIP button */}
       <button
         onClick={() => setScanOpen(true)}
-        style={{ position: "absolute", bottom: 18, left: "50%", transform: "translateX(-50%)", width: 84, height: 84, borderRadius: "50%", border: "none", background: "none", cursor: "pointer", padding: 0, pointerEvents: "auto", animation: "pulse-btn 2s ease-in-out infinite", filter: "drop-shadow(0 4px 16px rgba(201,168,76,0.45))" }}
+        style={{ position: "absolute", bottom: 18, left: "50%", transform: "translateX(-50%)", width: 84, height: 84, borderRadius: "50%", border: "none", background: "none", cursor: "pointer", padding: 0, pointerEvents: "auto", animation: "pulse-btn 2s ease-in-out infinite", filter: "drop-shadow(0 4px 16px rgba(159,33,27,0.45))" }}
       >
         <img src="/rip-btn.png" alt="Scan" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "50%" }} />
       </button>
@@ -1783,7 +1784,7 @@ export default function App() {
 
   // ── SHARED HEADER (sticky, always visible) ──
   const SharedHeader = ({ title, subtitle, showBack }) => (
-    <div style={{ background: "linear-gradient(180deg, rgba(8,8,16,0.97) 0%, rgba(8,8,16,0.85) 100%)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(201,168,76,0.1)", padding: "14px 16px", position: "sticky", top: 0, zIndex: 100 }}>
+    <div style={{ background: "rgba(18,16,11,0.97)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(159,33,27,0.3)", padding: "14px 16px", position: "sticky", top: 0, zIndex: 100 }}>
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
         {/* Top nav row */}
         {!showBack && (
@@ -1793,13 +1794,13 @@ export default function App() {
         )}
         {showBack && (
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-            <button onClick={goBack} style={{ background: "none", border: "none", color: "#C9A84C", fontSize: 22, cursor: "pointer", padding: "0 4px 0 0", lineHeight: 1, display: "flex", alignItems: "center", gap: 4 }}>
+            <button onClick={goBack} style={{ background: "none", border: "none", color: "#9f211b", fontSize: 22, cursor: "pointer", padding: "0 4px 0 0", lineHeight: 1, display: "flex", alignItems: "center", gap: 4 }}>
               <span style={{ fontSize: 20 }}>‹</span>
-              <span style={{ fontSize: 13, fontWeight: 500, color: "#C9A84C" }}>Back</span>
+              <span style={{ fontSize: 13, fontWeight: 500, color: "#9f211b" }}>Back</span>
             </button>
             <div style={{ flex: 1 }}>
-              <h1 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: -0.3 }}>{title}</h1>
-              {subtitle && <p style={{ margin: 0, fontSize: 11, color: "rgba(255,255,255,0.45)" }}>{subtitle}</p>}
+              <h1 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: "#ead8ad", letterSpacing: -0.3 }}>{title}</h1>
+              {subtitle && <p style={{ margin: 0, fontSize: 11, color: "rgba(234,216,173,0.55)" }}>{subtitle}</p>}
             </div>
           </div>
         )}
@@ -1808,20 +1809,20 @@ export default function App() {
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 5 }}>
             <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-              <span style={{ fontSize: 12, color: "rgba(255,255,255,0.45)" }}>
-                <strong style={{ color: "#C9A84C", fontSize: 28, fontWeight: 800 }}>{collectedCount}</strong>
-                <span style={{ color: "rgba(255,255,255,0.3)" }}> / {TOTAL} collected</span>
+              <span style={{ fontSize: 12, color: "#ead8ad" }}>
+                <strong style={{ color: "#ead8ad", fontSize: 28, fontWeight: 700 }}>{collectedCount}</strong>
+                <span style={{ color: "rgba(234,216,173,0.55)" }}> / {TOTAL} collected</span>
               </span>
               {completedMilestones.length > 0 && (
-                <span style={{ fontSize: 10, background: "rgba(201,168,76,0.1)", border: "1px solid rgba(201,168,76,0.4)", borderRadius: 20, padding: "1px 7px", color: "#C9A84C" }}>
+                <span style={{ fontSize: 10, background: "#9f211b", border: "1px solid #d1a84f", borderRadius: 999, padding: "1px 7px", color: "#ead8ad" }}>
                   🎯 {completedMilestones[completedMilestones.length - 1]}%
                 </span>
               )}
             </div>
-            <span style={{ fontSize: 20, fontWeight: 800, color: "#C9A84C" }}>{pct}%</span>
+            <span style={{ fontSize: 20, fontWeight: 700, color: "#ead8ad" }}>{pct}%</span>
           </div>
-          <div style={{ position: "relative", background: "rgba(255,255,255,0.08)", borderRadius: 10, height: 4, overflow: "hidden" }}>
-            <div style={{ height: "100%", width: `${pct}%`, background: "linear-gradient(90deg,#8a6a1e,#C9A84C,#f0d080)", backgroundSize: "200% auto", animation: "shimmer 3s linear infinite", borderRadius: 10, transition: "width 0.4s ease" }} />
+          <div style={{ position: "relative", background: "#3b2414", borderRadius: 10, height: 4, overflow: "hidden" }}>
+            <div style={{ height: "100%", width: `${pct}%`, background: "#9f211b", borderRadius: 10, transition: "width 0.4s ease" }} />
             {[25, 50, 75, 90].map(m => (
               <div key={m} style={{ position: "absolute", left: `${m}%`, top: 0, bottom: 0, width: 1, background: "rgba(255,255,255,0.08)" }} />
             ))}
@@ -1829,13 +1830,13 @@ export default function App() {
           {totalCards > 0 && (
             <div style={{ display: "flex", gap: 5, marginTop: 6, flexWrap: "wrap" }}>
               {RARITIES.filter(r => rarityBreakdown[r.id] > 0).map(r => (
-                <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 3, background: "rgba(255,255,255,0.04)", border: `1px solid ${r.color}33`, borderRadius: 6, padding: "1px 6px" }}>
+                <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 3, background: "#efe1bd", border: "1px solid #8b7448", borderRadius: 999, padding: "1px 6px" }}>
                   <div style={{ width: 7, height: 7, borderRadius: "50%", background: r.color }} />
-                  <span style={{ fontSize: 10, color: r.color, fontWeight: 600 }}>{rarityBreakdown[r.id]}×</span>
-                  <span style={{ fontSize: 9, color: "rgba(255,255,255,0.15)" }}>{r.label}</span>
+                  <span style={{ fontSize: 10, color: "#1d160f", fontWeight: 600 }}>{rarityBreakdown[r.id]}×</span>
+                  <span style={{ fontSize: 9, color: "#6b5a42" }}>{r.label}</span>
                 </div>
               ))}
-              {duplicates > 0 && <div style={{ display: "flex", alignItems: "center", gap: 3, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 6, padding: "1px 6px" }}><span style={{ fontSize: 10, color: "rgba(255,255,255,0.45)" }}>{duplicates} dupes</span></div>}
+              {duplicates > 0 && <div style={{ display: "flex", alignItems: "center", gap: 3, background: "#efe1bd", border: "1px solid #8b7448", borderRadius: 999, padding: "1px 6px" }}><span style={{ fontSize: 10, color: "#6b5a42" }}>{duplicates} dupes</span></div>}
             </div>
           )}
         </div>
@@ -1846,53 +1847,53 @@ export default function App() {
   // ── HOME PAGE ──
   if (currentPage.page === "home") {
     return (
-      <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: "#080810", minHeight: "100vh", color: "#e8e8f0", paddingBottom: 88 }}>
+      <div style={{ fontFamily: "'Oswald', sans-serif", background: "radial-gradient(circle at top, #3b2414 0%, #111 60%) #12100b", minHeight: "100vh", color: "#ead8ad", paddingBottom: 88 }}>
         <SharedHeader title="Rip &amp; Track" subtitle={`${collectedCount}/${TOTAL} unique · ${totalCards} total cards`} showBack={false} />
 
         {/* Global search */}
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "12px 16px 8px" }}>
           <div style={{ position: "relative" }} ref={searchRef}>
-            <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontSize: 14, color: "#C9A84C" }}>🔍</span>
+            <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontSize: 14, color: "#7c5631" }}>🔍</span>
             <input
               placeholder="Search any player, team, or sticker code..."
               value={globalSearch}
               onChange={e => { setGlobalSearch(e.target.value); setShowDropdown(true); }}
               onFocus={() => setShowDropdown(true)}
-              style={{ width: "100%", padding: "11px 36px 11px 36px", borderRadius: 12, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.05)", color: "#fff", fontSize: 14, outline: "none", boxSizing: "border-box" }}
+              style={{ width: "100%", padding: "11px 36px 11px 36px", borderRadius: 10, border: "4px solid #7c5631", background: "#ead8ad", color: "#1d160f", fontSize: 14, outline: "none", boxSizing: "border-box", boxShadow: "0 6px 0 #3b2516" }}
             />
             {globalSearch && (
-              <button onClick={() => { setGlobalSearch(""); setShowDropdown(false); }} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "#555", fontSize: 16, cursor: "pointer" }}>✕</button>
+              <button onClick={() => { setGlobalSearch(""); setShowDropdown(false); }} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "#6b5a42", fontSize: 16, cursor: "pointer" }}>✕</button>
             )}
             {/* Dropdown */}
             {showDropdown && globalResults.length > 0 && (
-              <div ref={dropdownRef} style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, background: "rgba(8,8,16,0.97)", backdropFilter: "blur(20px)", border: "1px solid rgba(201,168,76,0.15)", borderRadius: 12, zIndex: 200, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.7)" }}>
+              <div ref={dropdownRef} style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, background: "rgba(18,16,11,0.98)", border: "1px solid rgba(159,33,27,0.3)", borderRadius: 12, zIndex: 200, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.7)" }}>
                 {globalResults.map(s => {
                   const have = hasAny(collected, s.id);
                   const rd = getRarityForSticker(collected, s.id);
                   return (
-                    <div key={s.id} onClick={() => selectSearchResult(s)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "11px 14px", cursor: "pointer", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                      <div style={{ width: 32, height: 32, borderRadius: 8, background: have ? "rgba(34,197,94,0.08)" : "rgba(255,255,255,0.04)", border: `1px solid ${have ? "#22c55e" : "rgba(255,255,255,0.08)"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 14 }}>
+                    <div key={s.id} onClick={() => selectSearchResult(s)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "11px 14px", cursor: "pointer", borderBottom: "1px solid rgba(124,86,49,0.2)" }}>
+                      <div style={{ width: 32, height: 32, borderRadius: 8, background: have ? "rgba(34,197,94,0.08)" : "rgba(234,216,173,0.06)", border: `1px solid ${have ? "#22c55e" : "rgba(234,216,173,0.15)"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 14, color: "#ead8ad" }}>
                         {have ? "✓" : "○"}
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ display: "flex", gap: 7, alignItems: "baseline" }}>
-                          <span style={{ fontSize: 11, fontWeight: 700, color: "#C9A84C", flexShrink: 0 }}>{s.id}</span>
-                          <span style={{ fontSize: 13, color: "#e8e8f0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.label}</span>
+                          <span style={{ fontSize: 11, fontWeight: 700, color: "#9f211b", flexShrink: 0 }}>{s.id}</span>
+                          <span style={{ fontSize: 13, color: "#ead8ad", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.label}</span>
                         </div>
                         <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                          <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)" }}>{s.team}</span>
-                          {s.foil && <span style={{ fontSize: 10, color: "#d4af37" }}>✦</span>}
+                          <span style={{ fontSize: 11, color: "rgba(234,216,173,0.55)" }}>{s.team}</span>
+                          {s.foil && <span style={{ fontSize: 10, color: "#7c5631" }}>✦</span>}
                           <RarityDots rarityData={rd} />
                         </div>
                       </div>
-                      <span style={{ fontSize: 18, color: "rgba(201,168,76,0.5)" }}>›</span>
+                      <span style={{ fontSize: 18, color: "rgba(159,33,27,0.6)" }}>›</span>
                     </div>
                   );
                 })}
               </div>
             )}
             {showDropdown && globalSearch.trim() && globalResults.length === 0 && (
-              <div style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, background: "rgba(8,8,16,0.97)", backdropFilter: "blur(20px)", border: "1px solid rgba(201,168,76,0.15)", borderRadius: 12, padding: 14, zIndex: 200, color: "rgba(255,255,255,0.3)", fontSize: 13 }}>
+              <div style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, background: "rgba(18,16,11,0.98)", border: "1px solid rgba(159,33,27,0.3)", borderRadius: 12, padding: 14, zIndex: 200, color: "rgba(234,216,173,0.45)", fontSize: 13 }}>
                 No stickers found for "{globalSearch}"
               </div>
             )}
@@ -1901,27 +1902,29 @@ export default function App() {
 
         {/* Team grid */}
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "4px 16px 48px" }}>
-          <p style={{ fontSize: 12, color: "rgba(255,255,255,0.15)", margin: "0 0 10px" }}>Tap a team to browse their stickers</p>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
+            <span style={{ background: "#9f211b", color: "#ead8ad", letterSpacing: "0.12em", textTransform: "uppercase", border: "2px solid #d1a84f", boxShadow: "0 4px 0 #3b2516", borderRadius: 4, padding: "8px 32px", fontSize: 12, fontWeight: 700 }}>Browse Teams</span>
+          </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(155px, 1fr))", gap: 6 }}>
             {teamStats.map(({ team, total, have, pct: tp }) => (
               <div key={team} onClick={() => { setFilterSearch(""); setShowMissing(false); navigate("team", { team }); }}
-                style={{ background: tp === 100 ? "rgba(201,168,76,0.06)" : "rgba(255,255,255,0.04)", border: `1px solid ${tp === 100 ? "rgba(201,168,76,0.5)" : "rgba(201,168,76,0.12)"}`, borderRadius: 16, backdropFilter: "blur(16px) saturate(180%)", boxShadow: "0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)", padding: "14px", cursor: "pointer", display: "flex", flexDirection: "column", gap: 6 }}>
+                style={{ background: tp === 100 ? "#f5e8c8" : "#ead8ad", border: `3px solid ${tp === 100 ? "#9f211b" : "#7c5631"}`, borderRadius: 14, boxShadow: "0 5px 0 #3b2516", padding: "14px", cursor: "pointer", display: "flex", flexDirection: "column", gap: 6 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: 32, lineHeight: 1, marginBottom: 6 }}>
                       {TEAM_FLAGS[team] || "🏳️"}
                     </div>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: "#fff", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: "#1d160f", textTransform: "uppercase", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {team === "FWC" ? "Tournament" : team}
                     </div>
                   </div>
-                  <span style={{ fontSize: 18, color: "rgba(201,168,76,0.5)", flexShrink: 0 }}>›</span>
+                  <span style={{ fontSize: 18, color: "#7c5631", flexShrink: 0 }}>›</span>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <div style={{ flex: 1, background: "rgba(255,255,255,0.08)", borderRadius: 4, height: 3 }}>
-                    <div style={{ height: "100%", width: `${tp}%`, background: tp === 100 ? "#22c55e" : "linear-gradient(90deg,#8a6a1e,#C9A84C)", borderRadius: 4 }} />
+                  <div style={{ flex: 1, background: "#c8b98d", border: "1px solid #8b7448", borderRadius: 4, height: 3 }}>
+                    <div style={{ height: "100%", width: `${tp}%`, background: tp === 100 ? "#22c55e" : "#9f211b", borderRadius: 4 }} />
                   </div>
-                  <span style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", flexShrink: 0 }}>{have}/{total}</span>
+                  <span style={{ fontSize: 11, color: "#6b5a42", flexShrink: 0 }}>{have}/{total}</span>
                 </div>
               </div>
             ))}
@@ -1942,7 +1945,7 @@ export default function App() {
   const teamStat = teamStats.find(t => t.team === teamName);
 
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: "#080810", minHeight: "100vh", color: "#e8e8f0", paddingBottom: 88 }}>
+    <div style={{ fontFamily: "'Oswald', sans-serif", background: "radial-gradient(circle at top, #3b2414 0%, #111 60%) #12100b", minHeight: "100vh", color: "#ead8ad", paddingBottom: 88 }}>
       <SharedHeader
         title={teamLabel}
         subtitle={teamStat ? `${teamStat.have}/${teamStat.total} collected · ${teamStat.pct}% complete` : ""}
@@ -1950,32 +1953,32 @@ export default function App() {
       />
 
       {/* Team filter controls */}
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "10px 16px 6px", background: "rgba(8,8,16,0.9)", backdropFilter: "blur(12px)" }}>
+      <div style={{ maxWidth: 900, margin: "0 auto", padding: "10px 16px 6px", background: "rgba(18,16,11,0.9)", backdropFilter: "blur(12px)" }}>
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
           <input
             placeholder={`Filter ${teamLabel}...`}
             value={filterSearch}
             onChange={e => setFilterSearch(e.target.value)}
-            style={{ flex: 1, minWidth: 120, padding: "8px 12px", borderRadius: 12, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.05)", color: "#e8e8f0", fontSize: 13, outline: "none" }}
+            style={{ flex: 1, minWidth: 120, padding: "8px 12px", borderRadius: 12, border: "1px solid #7c5631", background: "#ead8ad", color: "#1d160f", fontSize: 13, outline: "none" }}
           />
           <button onClick={() => setShowMissing(m => !m)}
-            style={{ padding: "8px 12px", borderRadius: 8, border: `1px solid ${showMissing ? "#C9A84C" : "rgba(255,255,255,0.08)"}`, background: showMissing ? "rgba(201,168,76,0.1)" : "rgba(255,255,255,0.05)", color: showMissing ? "#C9A84C" : "rgba(255,255,255,0.45)", fontSize: 12, cursor: "pointer" }}>
+            style={{ padding: "8px 12px", borderRadius: 8, border: `1px solid #7c5631`, background: showMissing ? "#9f211b" : "#ead8ad", color: showMissing ? "#ead8ad" : "#6b5a42", fontSize: 12, cursor: "pointer" }}>
             {showMissing ? "▼ Missing" : "Missing"}
           </button>
           <button onClick={() => setView(v => v === "grid" ? "list" : "grid")}
-            style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.45)", fontSize: 13, cursor: "pointer" }}>
+            style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #7c5631", background: "#ead8ad", color: "#6b5a42", fontSize: 13, cursor: "pointer" }}>
             {view === "grid" ? "☰" : "⊞"}
           </button>
           <button onClick={exportMissing}
-            style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.45)", fontSize: 13, cursor: "pointer" }}>↓</button>
+            style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #7c5631", background: "#ead8ad", color: "#6b5a42", fontSize: 13, cursor: "pointer" }}>↓</button>
         </div>
-        <p style={{ margin: "6px 0 0", fontSize: 11, color: "rgba(255,255,255,0.15)" }}>{filtered.length} stickers shown</p>
+        <p style={{ margin: "6px 0 0", fontSize: 11, color: "rgba(234,216,173,0.35)" }}>{filtered.length} stickers shown</p>
       </div>
 
       {/* Sticker grid / list */}
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 16px 48px" }}>
         {view === "grid" ? (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(76px, 1fr))", gap: 5 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(76px, 1fr))", gap: 5, paddingTop: 8 }}>
             {filtered.map(s => {
               const rd = getRarityForSticker(collected, s.id);
               const have = hasAny(collected, s.id);
@@ -1983,10 +1986,10 @@ export default function App() {
               const topRarity = RARITIES.find(r => (rd[r.id] || 0) > 0 && r.id !== "base");
               return (
                 <div key={s.id} onClick={() => setModalSticker(s)}
-                  style={{ background: have ? "rgba(201,168,76,0.06)" : "rgba(255,255,255,0.04)", border: `1.5px solid ${have ? (topRarity ? topRarity.color : "rgba(201,168,76,0.3)") : "rgba(255,255,255,0.06)"}`, borderRadius: 10, backdropFilter: "blur(16px)", padding: "6px 4px", cursor: "pointer", textAlign: "center", position: "relative", opacity: have ? 1 : 0.5 }}>
-                  {s.foil && <span style={{ position: "absolute", top: 2, right: 3, fontSize: 8, color: "#d4af37" }}>✦</span>}
-                  <div style={{ fontSize: 9, fontWeight: 700, color: "#C9A84C", letterSpacing: 1, marginBottom: 1 }}>{s.id}</div>
-                  <div style={{ fontSize: 8, color: "rgba(255,255,255,0.7)", lineHeight: 1.2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.label}</div>
+                  style={{ background: "#ead8ad", border: `2px solid ${have ? (topRarity ? topRarity.color : "#7c5631") : "#c8b98d"}`, borderRadius: 12, boxShadow: "0 4px 0 #3b2516", padding: "6px 4px", cursor: "pointer", textAlign: "center", position: "relative", opacity: have ? 1 : 0.55 }}>
+                  {s.foil && <span style={{ position: "absolute", top: 2, right: 3, fontSize: 8, color: "#7c5631" }}>✦</span>}
+                  <div style={{ fontSize: 9, fontWeight: 700, color: "#9f211b", letterSpacing: 1, marginBottom: 1 }}>{s.id}</div>
+                  <div style={{ fontSize: 8, color: "#1d160f", lineHeight: 1.2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.label}</div>
                   {have && (
                     <div style={{ display: "flex", justifyContent: "center", gap: 1, marginTop: 3, flexWrap: "wrap" }}>
                       {RARITIES.filter(r => (rd[r.id] || 0) > 0).map(r => (
@@ -1994,36 +1997,36 @@ export default function App() {
                       ))}
                     </div>
                   )}
-                  {total > 1 && <div style={{ fontSize: 8, color: "#C9A84C", fontWeight: 800, marginTop: 1 }}>×{total}</div>}
+                  {total > 1 && <div style={{ fontSize: 8, background: "#efe1bd", color: "#7c5631", fontWeight: 700, marginTop: 1, borderRadius: 999, padding: "0 3px" }}>×{total}</div>}
                 </div>
               );
             })}
           </div>
         ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 3, paddingTop: 8 }}>
             {filtered.map(s => {
               const rd = getRarityForSticker(collected, s.id);
               const have = hasAny(collected, s.id);
               const total = totalForSticker(collected, s.id);
               const topRarity = RARITIES.find(r => (rd[r.id] || 0) > 0 && r.id !== "base");
-              const borderColor = have ? (topRarity ? topRarity.color : "rgba(201,168,76,0.25)") : "rgba(255,255,255,0.06)";
+              const borderColor = have ? (topRarity ? topRarity.color : "#7c5631") : "#c8b98d";
               return (
                 <div key={s.id} onClick={() => setModalSticker(s)}
-                  style={{ display: "flex", alignItems: "center", gap: 10, background: have ? "rgba(201,168,76,0.04)" : "rgba(255,255,255,0.04)", border: `1px solid ${borderColor}`, borderRadius: 10, backdropFilter: "blur(12px)", padding: "9px 12px", cursor: "pointer" }}>
-                  <div style={{ width: 30, height: 30, borderRadius: 7, background: "transparent", border: `1.5px solid ${borderColor}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, flexShrink: 0 }}>
-                    {have ? (total > 1 ? <span style={{ fontSize: 10, fontWeight: 800, color: "#C9A84C" }}>×{total}</span> : "✓") : "○"}
+                  style={{ display: "flex", alignItems: "center", gap: 10, background: "#ead8ad", borderBottom: "1px solid #c8b98d", border: `1px solid ${borderColor}`, borderRadius: 10, padding: "9px 12px", cursor: "pointer" }}>
+                  <div style={{ width: 30, height: 30, borderRadius: 7, background: "transparent", border: `1.5px solid ${borderColor}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, flexShrink: 0, color: "#1d160f" }}>
+                    {have ? (total > 1 ? <span style={{ fontSize: 10, fontWeight: 700, color: "#9f211b" }}>×{total}</span> : "✓") : "○"}
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: "flex", gap: 7, alignItems: "baseline" }}>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: "#C9A84C", flexShrink: 0 }}>{s.id}</span>
-                      <span style={{ fontSize: 13, color: have ? "#fff" : "rgba(255,255,255,0.45)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.label}</span>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: "#9f211b", flexShrink: 0 }}>{s.id}</span>
+                      <span style={{ fontSize: 13, color: "#1d160f", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.label}</span>
                     </div>
                     <div style={{ display: "flex", gap: 6, alignItems: "center", marginTop: 2 }}>
-                      {s.foil && <span style={{ fontSize: 9, color: "#d4af37" }}>✦ FOIL</span>}
+                      {s.foil && <span style={{ fontSize: 9, color: "#7c5631" }}>✦ FOIL</span>}
                       <RarityDots rarityData={rd} />
                     </div>
                   </div>
-                  <span style={{ fontSize: 18, color: "rgba(201,168,76,0.3)", flexShrink: 0 }}>›</span>
+                  <span style={{ fontSize: 18, color: "#7c5631", flexShrink: 0 }}>›</span>
                 </div>
               );
             })}
