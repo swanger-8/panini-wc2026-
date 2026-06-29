@@ -1826,14 +1826,14 @@ export default function App() {
           <div style={{ height: "100%", width: `${pct}%`, background: "#9f211b", borderRadius: 999, transition: "width 0.4s ease" }} />
         </div>
         {totalCards > 0 && (
-          <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 4, flexWrap: "nowrap", overflow: "hidden" }}>
             {RARITIES.filter(r => rarityBreakdown[r.id] > 0).map(r => (
-              <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 3, background: "rgba(200,185,141,0.5)", border: "1px solid #8b7448", borderRadius: 999, padding: "3px 10px" }}>
-                <div style={{ width: 8, height: 8, borderRadius: "50%", background: r.color }} />
-                <span style={{ fontSize: 12, color: "#1d160f", fontWeight: 700 }}>{rarityBreakdown[r.id]}× {r.label.toUpperCase()}</span>
+              <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 3, background: "rgba(200,185,141,0.5)", border: "1px solid #8b7448", borderRadius: 999, padding: "2px 8px", flexShrink: 0 }}>
+                <div style={{ width: 7, height: 7, borderRadius: "50%", background: r.color }} />
+                <span style={{ fontSize: 10, color: "#1d160f", fontWeight: 700 }}>{rarityBreakdown[r.id]}× {r.label.toUpperCase()}</span>
               </div>
             ))}
-            {duplicates > 0 && <div style={{ display: "flex", alignItems: "center", gap: 3, background: "rgba(200,185,141,0.5)", border: "1px solid #8b7448", borderRadius: 999, padding: "3px 10px" }}><span style={{ fontSize: 12, color: "#6b5a42", fontWeight: 700 }}>{duplicates} DUPES</span></div>}
+            {duplicates > 0 && <div style={{ display: "flex", alignItems: "center", background: "rgba(200,185,141,0.5)", border: "1px solid #8b7448", borderRadius: 999, padding: "2px 8px", flexShrink: 0 }}><span style={{ fontSize: 10, color: "#6b5a42", fontWeight: 700 }}>{duplicates} DUPES</span></div>}
           </div>
         )}
       </div>
