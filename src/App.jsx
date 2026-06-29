@@ -1811,7 +1811,7 @@ export default function App() {
   // ── HOME STATS PANEL (tilted parchment card) ──
   const HomeStatsPanel = () => (
     <div style={{ maxWidth: 900, margin: "14px auto 0", padding: "0 4px" }}>
-      <div style={{ backgroundImage: "url('/stats-bg.png')", backgroundSize: "100% 100%", borderRadius: 14, padding: "32px 48px 40px", transform: "rotate(-1deg)" }}>
+      <div style={{ backgroundImage: "url('/card-bg.png')", backgroundSize: "cover", backgroundPosition: "center", borderRadius: 14, padding: "20px 24px 22px", transform: "rotate(-1deg)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
           <div>
             <div style={{ fontSize: 48, fontWeight: 900, color: "#9f211b", lineHeight: 1 }}>{collectedCount}</div>
