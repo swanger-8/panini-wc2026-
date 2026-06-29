@@ -1779,10 +1779,7 @@ export default function App() {
             </button>
           )}
           {!showBack && (
-            <div style={{ borderBottom: "2px solid rgba(201,168,76,0.4)", paddingBottom: 2, display: "flex", alignItems: "center", gap: 0 }}>
-              <span style={{ fontSize: 22, fontWeight: 900, color: "#fff", letterSpacing: -0.5 }}>Rip <span style={{ color: "#C9A84C" }}>&amp;</span></span>
-              <span style={{ fontSize: 22, fontWeight: 900, color: "#C9A84C", marginLeft: 4 }}>Track</span>
-            </div>
+            <img src="/logo.png" alt="Rip & Track" style={{ height: 52, width: "auto", objectFit: "contain", borderRadius: 8, display: "block" }} />
           )}
           <div style={{ flex: 1 }}>
             {showBack && <h1 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: -0.3 }}>{title}</h1>}
