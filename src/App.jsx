@@ -1602,7 +1602,7 @@ export default function App() {
       :root { --bg:#12100b; --red:#9f211b; --parchment:#ead8ad; --brown:#7c5631; }
       body { background:#12100b; margin:0; font-family: 'Oswald', sans-serif; }
       @keyframes shimmer { 0%{background-position:-200% center} 100%{background-position:200% center} }
-      @keyframes pulse-btn { 0%,100%{transform:translateX(-50%) scale(1)} 50%{transform:translateX(-50%) scale(1.04)} }
+      @keyframes pulse-btn { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
       @keyframes scan-spin { to{transform:rotate(360deg)} }
       @keyframes scan-flash { 0%{opacity:0.85} 100%{opacity:0} }
     `;
@@ -1775,7 +1775,7 @@ export default function App() {
         <img src="/nav-bg.png" alt="" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center bottom", pointerEvents: "none" }} />
         <button
           onClick={() => setScanOpen(true)}
-          style={{ position: "relative", zIndex: 1, width: 54, height: 54, borderRadius: "50%", border: "none", background: "none", cursor: "pointer", padding: 0, animation: "pulse-btn 2s ease-in-out infinite", filter: "drop-shadow(0 2px 10px rgba(159,33,27,0.6))" }}
+          style={{ position: "relative", zIndex: 1, width: 62, height: 62, borderRadius: "50%", border: "none", background: "none", cursor: "pointer", padding: 0, animation: "pulse-btn 2s ease-in-out infinite", filter: "drop-shadow(0 2px 12px rgba(159,33,27,0.7))" }}
         >
           <img src="/rip-btn.png" alt="Scan" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "50%" }} />
         </button>
@@ -1811,15 +1811,15 @@ export default function App() {
   // ── HOME STATS PANEL (tilted parchment card) ──
   const HomeStatsPanel = () => (
     <div style={{ maxWidth: 500, margin: "14px auto 0", padding: "0 16px" }}>
-      <div style={{ backgroundImage: "url('/stats-bg.png')", backgroundSize: "100% 100%", borderRadius: 14, padding: "22px 22px 18px", transform: "rotate(-1deg)" }}>
+      <div style={{ backgroundImage: "url('/stats-bg.png')", backgroundSize: "100% 100%", borderRadius: 14, padding: "20px 24px 28px", transform: "rotate(-1deg)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 10 }}>
           <div>
-            <div style={{ fontSize: 56, fontWeight: 900, color: "#9f211b", lineHeight: 1 }}>{collectedCount}</div>
-            <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.05em", color: "#1d160f" }}>/ {TOTAL} COLLECTED</div>
+            <div style={{ fontSize: 48, fontWeight: 900, color: "#9f211b", lineHeight: 1 }}>{collectedCount}</div>
+            <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.05em", color: "#1d160f" }}>/ {TOTAL} COLLECTED</div>
           </div>
           <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 44, fontWeight: 900, color: "#1d160f", lineHeight: 1 }}>{pct}%</div>
-            <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.05em", color: "#1d160f" }}>COMPLETE</div>
+            <div style={{ fontSize: 38, fontWeight: 900, color: "#1d160f", lineHeight: 1 }}>{pct}%</div>
+            <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.05em", color: "#1d160f" }}>COMPLETE</div>
           </div>
         </div>
         <div style={{ background: "#c8b98d", border: "1px solid #8b7448", borderRadius: 999, height: 10, overflow: "hidden", marginBottom: 10 }}>
