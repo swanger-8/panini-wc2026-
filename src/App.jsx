@@ -1786,21 +1786,23 @@ export default function App() {
     <div style={{ background: "linear-gradient(180deg, rgba(8,8,16,0.97) 0%, rgba(8,8,16,0.85) 100%)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(201,168,76,0.1)", padding: "14px 16px", position: "sticky", top: 0, zIndex: 100 }}>
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
         {/* Top nav row */}
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-          {showBack && (
+        {!showBack && (
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 10 }}>
+            <img src="/logo.png" alt="Rip & Track" style={{ height: 64, width: "auto", objectFit: "contain", display: "block" }} />
+          </div>
+        )}
+        {showBack && (
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
             <button onClick={goBack} style={{ background: "none", border: "none", color: "#C9A84C", fontSize: 22, cursor: "pointer", padding: "0 4px 0 0", lineHeight: 1, display: "flex", alignItems: "center", gap: 4 }}>
               <span style={{ fontSize: 20 }}>‹</span>
               <span style={{ fontSize: 13, fontWeight: 500, color: "#C9A84C" }}>Back</span>
             </button>
-          )}
-          {!showBack && (
-            <img src="/logo.png" alt="Rip & Track" style={{ height: 52, width: "auto", objectFit: "contain", borderRadius: 8, display: "block" }} />
-          )}
-          <div style={{ flex: 1 }}>
-            {showBack && <h1 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: -0.3 }}>{title}</h1>}
-            {subtitle && <p style={{ margin: 0, fontSize: 11, color: "rgba(255,255,255,0.45)" }}>{subtitle}</p>}
+            <div style={{ flex: 1 }}>
+              <h1 style={{ margin: 0, fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: -0.3 }}>{title}</h1>
+              {subtitle && <p style={{ margin: 0, fontSize: 11, color: "rgba(255,255,255,0.45)" }}>{subtitle}</p>}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Progress bar — always shown */}
         <div>
