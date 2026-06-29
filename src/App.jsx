@@ -1775,25 +1775,28 @@ export default function App() {
       {/* Elevated RIP button */}
       <button
         onClick={() => setScanOpen(true)}
-        style={{ position: "absolute", bottom: 18, left: "50%", transform: "translateX(-50%)", width: 84, height: 84, borderRadius: "50%", border: "none", background: "none", cursor: "pointer", padding: 0, pointerEvents: "auto", animation: "pulse-btn 2s ease-in-out infinite", filter: "drop-shadow(0 4px 16px rgba(159,33,27,0.45))" }}
+        style={{ position: "absolute", bottom: 18, left: "50%", transform: "translateX(-50%)", width: 84, height: 84, borderRadius: "50%", border: "none", background: "none", cursor: "pointer", padding: 0, pointerEvents: "auto", animation: "pulse-btn 2s ease-in-out infinite", filter: "drop-shadow(0 4px 16px rgba(159,33,27,0.6))" }}
       >
         <img src="/rip-btn.png" alt="Scan" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "50%" }} />
       </button>
+      {/* RIP A PACK label */}
+      <div style={{ position: "absolute", bottom: 26, left: "calc(50% + 52px)", pointerEvents: "none" }}>
+        <span style={{ fontSize: 11, fontWeight: 700, color: "#ead8ad", letterSpacing: "0.08em", textTransform: "uppercase", opacity: 0.75 }}>← RIP A PACK</span>
+      </div>
     </div>
   );
 
   // ── SHARED HEADER (sticky, always visible) ──
   const SharedHeader = ({ title, subtitle, showBack }) => (
-    <div style={{ background: "rgba(18,16,11,0.97)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(159,33,27,0.3)", padding: "14px 16px", position: "sticky", top: 0, zIndex: 100 }}>
+    <div style={{ background: "rgba(18,16,11,0.92)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(159,33,27,0.3)", padding: "10px 16px", position: "sticky", top: 0, zIndex: 100 }}>
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
-        {/* Top nav row */}
         {!showBack && (
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: 10 }}>
-            <img src="/logo.png" alt="Rip & Track" style={{ height: 64, width: "auto", objectFit: "contain", display: "block" }} />
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <img src="/logo.png" alt="Rip & Track" style={{ height: 72, width: "auto", objectFit: "contain", display: "block" }} />
           </div>
         )}
         {showBack && (
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <button onClick={goBack} style={{ background: "none", border: "none", color: "#9f211b", fontSize: 22, cursor: "pointer", padding: "0 4px 0 0", lineHeight: 1, display: "flex", alignItems: "center", gap: 4 }}>
               <span style={{ fontSize: 20 }}>‹</span>
               <span style={{ fontSize: 13, fontWeight: 500, color: "#9f211b" }}>Back</span>
@@ -1804,42 +1807,38 @@ export default function App() {
             </div>
           </div>
         )}
+      </div>
+    </div>
+  );
 
-        {/* Progress bar — always shown */}
-        <div>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 5 }}>
-            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-              <span style={{ fontSize: 12, color: "#ead8ad" }}>
-                <strong style={{ color: "#ead8ad", fontSize: 28, fontWeight: 700 }}>{collectedCount}</strong>
-                <span style={{ color: "rgba(234,216,173,0.55)" }}> / {TOTAL} collected</span>
-              </span>
-              {completedMilestones.length > 0 && (
-                <span style={{ fontSize: 10, background: "#9f211b", border: "1px solid #d1a84f", borderRadius: 999, padding: "1px 7px", color: "#ead8ad" }}>
-                  🎯 {completedMilestones[completedMilestones.length - 1]}%
-                </span>
-              )}
-            </div>
-            <span style={{ fontSize: 20, fontWeight: 700, color: "#ead8ad" }}>{pct}%</span>
+  // ── HOME STATS PANEL (tilted parchment card) ──
+  const HomeStatsPanel = () => (
+    <div style={{ maxWidth: 500, margin: "14px auto 0", padding: "0 16px" }}>
+      <div style={{ background: "#ead8ad", border: "4px solid #7c5631", borderRadius: 14, boxShadow: "0 8px 0 #3b2516", padding: "16px 18px", transform: "rotate(-1deg)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 10 }}>
+          <div>
+            <div style={{ fontSize: 48, fontWeight: 900, color: "#9f211b", lineHeight: 1 }}>{collectedCount}</div>
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#1d160f" }}>/ {TOTAL} COLLECTED</div>
           </div>
-          <div style={{ position: "relative", background: "#3b2414", borderRadius: 10, height: 4, overflow: "hidden" }}>
-            <div style={{ height: "100%", width: `${pct}%`, background: "#9f211b", borderRadius: 10, transition: "width 0.4s ease" }} />
-            {[25, 50, 75, 90].map(m => (
-              <div key={m} style={{ position: "absolute", left: `${m}%`, top: 0, bottom: 0, width: 1, background: "rgba(255,255,255,0.08)" }} />
-            ))}
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontSize: 36, fontWeight: 900, color: "#1d160f", lineHeight: 1 }}>{pct}%</div>
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", color: "#1d160f" }}>COMPLETE</div>
           </div>
-          {totalCards > 0 && (
-            <div style={{ display: "flex", gap: 5, marginTop: 6, flexWrap: "wrap" }}>
-              {RARITIES.filter(r => rarityBreakdown[r.id] > 0).map(r => (
-                <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 3, background: "#efe1bd", border: "1px solid #8b7448", borderRadius: 999, padding: "1px 6px" }}>
-                  <div style={{ width: 7, height: 7, borderRadius: "50%", background: r.color }} />
-                  <span style={{ fontSize: 10, color: "#1d160f", fontWeight: 600 }}>{rarityBreakdown[r.id]}×</span>
-                  <span style={{ fontSize: 9, color: "#6b5a42" }}>{r.label}</span>
-                </div>
-              ))}
-              {duplicates > 0 && <div style={{ display: "flex", alignItems: "center", gap: 3, background: "#efe1bd", border: "1px solid #8b7448", borderRadius: 999, padding: "1px 6px" }}><span style={{ fontSize: 10, color: "#6b5a42" }}>{duplicates} dupes</span></div>}
-            </div>
-          )}
         </div>
+        <div style={{ background: "#c8b98d", border: "1px solid #8b7448", borderRadius: 999, height: 10, overflow: "hidden", marginBottom: 10 }}>
+          <div style={{ height: "100%", width: `${pct}%`, background: "#9f211b", borderRadius: 999, transition: "width 0.4s ease" }} />
+        </div>
+        {totalCards > 0 && (
+          <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+            {RARITIES.filter(r => rarityBreakdown[r.id] > 0).map(r => (
+              <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 3, background: "#efe1bd", border: "1px solid #8b7448", borderRadius: 999, padding: "2px 8px" }}>
+                <div style={{ width: 7, height: 7, borderRadius: "50%", background: r.color }} />
+                <span style={{ fontSize: 10, color: "#1d160f", fontWeight: 700 }}>{rarityBreakdown[r.id]}× {r.label.toUpperCase()}</span>
+              </div>
+            ))}
+            {duplicates > 0 && <div style={{ display: "flex", alignItems: "center", gap: 3, background: "#efe1bd", border: "1px solid #8b7448", borderRadius: 999, padding: "2px 8px" }}><span style={{ fontSize: 10, color: "#6b5a42", fontWeight: 700 }}>{duplicates} DUPES</span></div>}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -1847,8 +1846,13 @@ export default function App() {
   // ── HOME PAGE ──
   if (currentPage.page === "home") {
     return (
-      <div style={{ fontFamily: "'Oswald', sans-serif", background: "radial-gradient(circle at top, #3b2414 0%, #111 60%) #12100b", minHeight: "100vh", color: "#ead8ad", paddingBottom: 88 }}>
-        <SharedHeader title="Rip &amp; Track" subtitle={`${collectedCount}/${TOTAL} unique · ${totalCards} total cards`} showBack={false} />
+      <div style={{ fontFamily: "'Oswald', sans-serif", minHeight: "100vh", color: "#ead8ad", paddingBottom: 88, position: "relative" }}>
+        {/* Background — swap gradient for image once bg.jpg is uploaded to public/ */}
+        <div style={{ position: "fixed", inset: 0, zIndex: 0, background: "url('/bg.jpg') center/cover no-repeat, radial-gradient(circle at top, #3b2414 0%, #111 60%) #12100b" }} />
+        <div style={{ position: "fixed", inset: 0, zIndex: 0, background: "rgba(18,16,11,0.55)" }} />
+        <div style={{ position: "relative", zIndex: 1 }}>
+        <SharedHeader title="Rip &amp; Track" subtitle="" showBack={false} />
+        <HomeStatsPanel />
 
         {/* Global search */}
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "12px 16px 8px" }}>
@@ -1901,31 +1905,26 @@ export default function App() {
         </div>
 
         {/* Team grid */}
-        <div style={{ maxWidth: 900, margin: "0 auto", padding: "4px 16px 48px" }}>
-          <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
-            <span style={{ background: "#9f211b", color: "#ead8ad", letterSpacing: "0.12em", textTransform: "uppercase", border: "2px solid #d1a84f", boxShadow: "0 4px 0 #3b2516", borderRadius: 4, padding: "8px 32px", fontSize: 12, fontWeight: 700 }}>Browse Teams</span>
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "14px 16px 48px" }}>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 10, marginBottom: 14 }}>
+            <span style={{ color: "#d1a84f", fontSize: 14 }}>★</span>
+            <span style={{ background: "#9f211b", color: "#ead8ad", letterSpacing: "0.15em", textTransform: "uppercase", border: "2px solid #d1a84f", boxShadow: "0 4px 0 #3b2516", borderRadius: 4, padding: "7px 24px", fontSize: 13, fontWeight: 700 }}>Browse Teams</span>
+            <span style={{ color: "#d1a84f", fontSize: 14 }}>★</span>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(155px, 1fr))", gap: 6 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
             {teamStats.map(({ team, total, have, pct: tp }) => (
               <div key={team} onClick={() => { setFilterSearch(""); setShowMissing(false); navigate("team", { team }); }}
-                style={{ background: tp === 100 ? "#f5e8c8" : "#ead8ad", border: `3px solid ${tp === 100 ? "#9f211b" : "#7c5631"}`, borderRadius: 14, boxShadow: "0 5px 0 #3b2516", padding: "14px", cursor: "pointer", display: "flex", flexDirection: "column", gap: 6 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 32, lineHeight: 1, marginBottom: 6 }}>
-                      {TEAM_FLAGS[team] || "🏳️"}
-                    </div>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: "#1d160f", textTransform: "uppercase", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                      {team === "FWC" ? "Tournament" : team}
-                    </div>
-                  </div>
-                  <span style={{ fontSize: 18, color: "#7c5631", flexShrink: 0 }}>›</span>
+                style={{ background: tp === 100 ? "#f5e8c8" : "#ead8ad", border: `3px solid ${tp === 100 ? "#9f211b" : "#7c5631"}`, borderRadius: 12, boxShadow: "0 5px 0 #3b2516", padding: "12px 10px", cursor: "pointer", display: "flex", flexDirection: "column", gap: 6, alignItems: "center" }}>
+                <div style={{ fontSize: 36, lineHeight: 1 }}>
+                  {TEAM_FLAGS[team] || "🏳️"}
                 </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <div style={{ flex: 1, background: "#c8b98d", border: "1px solid #8b7448", borderRadius: 4, height: 3 }}>
-                    <div style={{ height: "100%", width: `${tp}%`, background: tp === 100 ? "#22c55e" : "#9f211b", borderRadius: 4 }} />
-                  </div>
-                  <span style={{ fontSize: 11, color: "#6b5a42", flexShrink: 0 }}>{have}/{total}</span>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#1d160f", textTransform: "uppercase", textAlign: "center", lineHeight: 1.2, wordBreak: "break-word" }}>
+                  {team === "FWC" ? "Tournament" : team}
                 </div>
+                <div style={{ width: "100%", background: "#c8b98d", border: "1px solid #8b7448", borderRadius: 999, height: 5, overflow: "hidden" }}>
+                  <div style={{ height: "100%", width: `${tp}%`, background: tp === 100 ? "#22c55e" : "#9f211b", borderRadius: 999 }} />
+                </div>
+                <span style={{ fontSize: 10, color: "#6b5a42", fontWeight: 700 }}>{have}/{total}</span>
               </div>
             ))}
           </div>
@@ -1935,6 +1934,7 @@ export default function App() {
         <BottomNav />
         {scanOpen && <ScanOverlay onClose={handleScanClose} onAddToInventory={handleScanAdd} onLookUp={handleScanLookUp} />}
         {toast && <ScanToast message={toast.message} color={toast.color} />}
+        </div>{/* end relative z-1 wrapper */}
       </div>
     );
   }
