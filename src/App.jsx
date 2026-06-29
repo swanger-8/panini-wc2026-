@@ -1771,7 +1771,9 @@ export default function App() {
   const BottomNav = () => (
     <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 400, pointerEvents: "none" }}>
       {/* Bar */}
-      <div style={{ backgroundImage: "url('/nav-bg.png')", backgroundSize: "cover", backgroundPosition: "center top", borderRadius: "24px 24px 0 0", height: 68, display: "flex", justifyContent: "center", alignItems: "center", pointerEvents: "auto" }} />
+      <div style={{ position: "relative", borderRadius: "24px 24px 0 0", height: 68, overflow: "hidden", pointerEvents: "auto" }}>
+        <img src="/nav-bg.png" alt="" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "fill", pointerEvents: "none" }} />
+      </div>
       {/* Elevated RIP button */}
       <button
         onClick={() => setScanOpen(true)}
@@ -1851,19 +1853,23 @@ export default function App() {
         <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, backgroundImage: "url('/6ffb6e0a335b5bf84a5db2a9f6cacf94_1_1782749614_9361.png')", backgroundSize: "cover", backgroundPosition: "top center" }} />
         <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, background: "rgba(10,6,2,0.35)" }} />
         <div style={{ position: "relative", zIndex: 1 }}>
-        <SharedHeader title="Rip &amp; Track" subtitle="" showBack={false} />
+        {/* Logo — not sticky, scrolls with page */}
+        <div style={{ display: "flex", justifyContent: "center", paddingTop: 48, paddingBottom: 4 }}>
+          <img src="/logo.png" alt="Rip & Track" style={{ height: 90, width: "auto", objectFit: "contain" }} />
+        </div>
         <HomeStatsPanel />
 
         {/* Global search */}
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "12px 16px 8px" }}>
-          <div style={{ position: "relative", backgroundImage: "url('/search-bg.png')", backgroundSize: "100% 100%", borderRadius: 10, boxShadow: "0 4px 0 #3b2516" }} ref={searchRef}>
-            <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontSize: 14, color: "#5a3e1b" }}>🔍</span>
+          <div style={{ position: "relative" }} ref={searchRef}>
+            {/* Search bar image as visual layer */}
+            <img src="/search-bg.png" alt="" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "fill", borderRadius: 8, pointerEvents: "none", zIndex: 0 }} />
             <input
               placeholder="Search any player, team, or sticker code..."
               value={globalSearch}
               onChange={e => { setGlobalSearch(e.target.value); setShowDropdown(true); }}
               onFocus={() => setShowDropdown(true)}
-              style={{ width: "100%", padding: "13px 36px 13px 36px", border: "none", background: "transparent", color: "#1d160f", fontSize: 14, outline: "none", boxSizing: "border-box", fontFamily: "'Oswald', sans-serif" }}
+              style={{ position: "relative", zIndex: 1, width: "100%", padding: "14px 36px 14px 44px", border: "none", background: "transparent", color: "#1d160f", fontSize: 14, outline: "none", boxSizing: "border-box", fontFamily: "'Oswald', sans-serif" }}
             />
             {globalSearch && (
               <button onClick={() => { setGlobalSearch(""); setShowDropdown(false); }} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "#6b5a42", fontSize: 16, cursor: "pointer" }}>✕</button>
