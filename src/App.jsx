@@ -1909,10 +1909,8 @@ export default function App() {
 
         {/* Team grid */}
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "14px 16px 48px" }}>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 10, marginBottom: 14 }}>
-            <span style={{ color: "#d1a84f", fontSize: 14 }}>★</span>
-            <span style={{ background: "#9f211b", color: "#ead8ad", letterSpacing: "0.15em", textTransform: "uppercase", border: "2px solid #d1a84f", boxShadow: "0 4px 0 #3b2516", borderRadius: 4, padding: "7px 24px", fontSize: 13, fontWeight: 700 }}>Browse Teams</span>
-            <span style={{ color: "#d1a84f", fontSize: 14 }}>★</span>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 14 }}>
+            <img src="/browse-banner.png" alt="Browse Teams" style={{ maxWidth: "100%", height: "auto", objectFit: "contain", filter: "drop-shadow(0 4px 0 #3b2516)" }} />
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
             {teamStats.map(({ team, total, have, pct: tp }) => (
