@@ -1740,6 +1740,7 @@ export default function App() {
   // ── SCAN FEATURE ──
   const [scanOpen, setScanOpen] = useState(false);
   const [toast, setToast] = useState(null);
+  const [showAllTeams, setShowAllTeams] = useState(false);
 
   const showToast = useCallback((message, color = "#C9A84C") => {
     setToast({ message, color });
@@ -1810,7 +1811,7 @@ export default function App() {
   // ── HOME STATS PANEL (tilted parchment card) ──
   const HomeStatsPanel = () => (
     <div style={{ maxWidth: 500, margin: "14px auto 0", padding: "0 16px" }}>
-      <div style={{ backgroundImage: "url('/card-bg.png')", backgroundSize: "cover", backgroundPosition: "center", borderRadius: 14, padding: "18px 20px 16px", transform: "rotate(-1deg)" }}>
+      <div style={{ backgroundImage: "url('/stats-bg.png')", backgroundSize: "100% 100%", borderRadius: 14, padding: "22px 22px 18px", transform: "rotate(-1deg)" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 10 }}>
           <div>
             <div style={{ fontSize: 56, fontWeight: 900, color: "#9f211b", lineHeight: 1 }}>{collectedCount}</div>
@@ -1908,7 +1909,7 @@ export default function App() {
             <img src="/browse-banner.png" alt="Browse Teams" style={{ maxWidth: "100%", height: "auto", objectFit: "contain" }} />
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
-            {teamStats.map(({ team, total, have, pct: tp }) => (
+            {(showAllTeams ? teamStats : [...teamStats].sort((a, b) => b.have - a.have).slice(0, 8)).map(({ team, total, have, pct: tp }) => (
               <div key={team} onClick={() => { setFilterSearch(""); setShowMissing(false); navigate("team", { team }); }}
                 style={{ backgroundImage: "url('/card-bg.png')", backgroundSize: "cover", backgroundPosition: "center", borderRadius: 12, padding: "14px 10px 12px", cursor: "pointer", display: "flex", flexDirection: "column", gap: 5, alignItems: "center" }}>
                 <div style={{ fontSize: 30, lineHeight: 1 }}>
@@ -1923,6 +1924,14 @@ export default function App() {
                 <span style={{ fontSize: 11, color: "#6b5a42", fontWeight: 700 }}>{have}/{total}</span>
               </div>
             ))}
+            {!showAllTeams && (
+              <div onClick={() => setShowAllTeams(true)}
+                style={{ backgroundImage: "url('/card-bg.png')", backgroundSize: "cover", backgroundPosition: "center", borderRadius: 12, padding: "14px 10px 12px", cursor: "pointer", display: "flex", flexDirection: "column", gap: 5, alignItems: "center", justifyContent: "center", opacity: 0.75 }}>
+                <div style={{ fontSize: 22, fontWeight: 900, color: "#9f211b", lineHeight: 1 }}>+</div>
+                <div style={{ fontSize: 10, fontWeight: 700, color: "#1d160f", textTransform: "uppercase", textAlign: "center", lineHeight: 1.4 }}>MORE{"\n"}TEAMS</div>
+                <span style={{ fontSize: 11, color: "#6b5a42", fontWeight: 700 }}>{teamStats.length - 8} left</span>
+              </div>
+            )}
           </div>
         </div>
 
