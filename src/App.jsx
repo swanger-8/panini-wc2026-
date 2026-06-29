@@ -1770,19 +1770,15 @@ export default function App() {
   // ── BOTTOM NAV BAR ──
   const BottomNav = () => (
     <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 400 }}>
-      {/* Nav bar — img tag with objectFit:cover so image scales proportionally, anchored to bottom so the clean bar portion shows */}
-      <div style={{ position: "relative", borderRadius: "24px 24px 0 0", height: 68, overflow: "hidden" }}>
+      <div style={{ position: "relative", borderRadius: "24px 24px 0 0", height: 72, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <img src="/nav-bg.png" alt="" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center bottom", pointerEvents: "none" }} />
-        {/* Upward arrow pointing to floating button */}
-        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -60%)", fontSize: 13, color: "#9f211b", opacity: 0.7, pointerEvents: "none" }}>▲</div>
+        <button
+          onClick={() => setScanOpen(true)}
+          style={{ position: "relative", zIndex: 1, width: 54, height: 54, borderRadius: "50%", border: "none", background: "none", cursor: "pointer", padding: 0, animation: "pulse-btn 2s ease-in-out infinite", filter: "drop-shadow(0 2px 10px rgba(159,33,27,0.6))" }}
+        >
+          <img src="/rip-btn.png" alt="Scan" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "50%" }} />
+        </button>
       </div>
-      {/* RIP button floats above the bar, centered */}
-      <button
-        onClick={() => setScanOpen(true)}
-        style={{ position: "absolute", bottom: 50, left: "50%", transform: "translateX(-50%)", width: 70, height: 70, borderRadius: "50%", border: "none", background: "none", cursor: "pointer", padding: 0, animation: "pulse-btn 2s ease-in-out infinite", filter: "drop-shadow(0 4px 16px rgba(159,33,27,0.7))" }}
-      >
-        <img src="/rip-btn.png" alt="Scan" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "50%" }} />
-      </button>
     </div>
   );
 
@@ -1846,7 +1842,7 @@ export default function App() {
   // ── HOME PAGE ──
   if (currentPage.page === "home") {
     return (
-      <div style={{ fontFamily: "'Oswald', sans-serif", minHeight: "100vh", color: "#ead8ad", paddingBottom: 130, position: "relative" }}>
+      <div style={{ fontFamily: "'Oswald', sans-serif", minHeight: "100vh", color: "#ead8ad", paddingBottom: 96, position: "relative" }}>
         {/* Background */}
         <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, backgroundImage: "url('/6ffb6e0a335b5bf84a5db2a9f6cacf94_1_1782749614_9361.png')", backgroundSize: "cover", backgroundPosition: "top center" }} />
         <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, background: "rgba(10,6,2,0.12)" }} />
@@ -1914,17 +1910,17 @@ export default function App() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
             {teamStats.map(({ team, total, have, pct: tp }) => (
               <div key={team} onClick={() => { setFilterSearch(""); setShowMissing(false); navigate("team", { team }); }}
-                style={{ backgroundImage: "url('/card-bg.png')", backgroundSize: "cover", backgroundPosition: "center", borderRadius: 12, padding: "10px 8px", cursor: "pointer", display: "flex", flexDirection: "column", gap: 4, alignItems: "center" }}>
-                <div style={{ fontSize: 28, lineHeight: 1 }}>
+                style={{ backgroundImage: "url('/card-bg.png')", backgroundSize: "cover", backgroundPosition: "center", borderRadius: 12, padding: "14px 10px 12px", cursor: "pointer", display: "flex", flexDirection: "column", gap: 5, alignItems: "center" }}>
+                <div style={{ fontSize: 30, lineHeight: 1 }}>
                   {TEAM_FLAGS[team] || "🏳️"}
                 </div>
-                <div style={{ fontSize: 10, fontWeight: 700, color: "#1d160f", textTransform: "uppercase", textAlign: "center", lineHeight: 1.2, wordBreak: "break-word", width: "100%" }}>
+                <div style={{ fontSize: 10, fontWeight: 700, color: "#1d160f", textTransform: "uppercase", textAlign: "center", lineHeight: 1.3, wordBreak: "break-word", width: "100%" }}>
                   {team === "FWC" ? "Tournament" : team}
                 </div>
-                <div style={{ width: "100%", background: "#c8b98d", borderRadius: 999, height: 4, overflow: "hidden" }}>
+                <div style={{ width: "90%", background: "#c8b98d", borderRadius: 999, height: 5, overflow: "hidden" }}>
                   <div style={{ height: "100%", width: `${tp}%`, background: tp === 100 ? "#22c55e" : "#9f211b", borderRadius: 999 }} />
                 </div>
-                <span style={{ fontSize: 10, color: "#6b5a42", fontWeight: 700 }}>{have}/{total}</span>
+                <span style={{ fontSize: 11, color: "#6b5a42", fontWeight: 700 }}>{have}/{total}</span>
               </div>
             ))}
           </div>
@@ -1945,7 +1941,7 @@ export default function App() {
   const teamStat = teamStats.find(t => t.team === teamName);
 
   return (
-    <div style={{ fontFamily: "'Oswald', sans-serif", background: "radial-gradient(circle at top, #3b2414 0%, #111 60%) #12100b", minHeight: "100vh", color: "#ead8ad", paddingBottom: 130 }}>
+    <div style={{ fontFamily: "'Oswald', sans-serif", background: "radial-gradient(circle at top, #3b2414 0%, #111 60%) #12100b", minHeight: "100vh", color: "#ead8ad", paddingBottom: 96 }}>
       <SharedHeader
         title={teamLabel}
         subtitle={teamStat ? `${teamStat.have}/${teamStat.total} collected · ${teamStat.pct}% complete` : ""}
