@@ -1766,6 +1766,21 @@ export default function App() {
     }
   }, [showToast]);
 
+  // ── BOTTOM NAV BAR ──
+  const BottomNav = () => (
+    <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 400, pointerEvents: "none" }}>
+      {/* Bar */}
+      <div style={{ background: "rgba(8,8,16,0.97)", backdropFilter: "blur(20px)", borderTop: "1px solid rgba(201,168,76,0.15)", borderRadius: "24px 24px 0 0", height: 68, display: "flex", justifyContent: "center", alignItems: "center", pointerEvents: "auto" }} />
+      {/* Elevated RIP button */}
+      <button
+        onClick={() => setScanOpen(true)}
+        style={{ position: "absolute", bottom: 18, left: "50%", transform: "translateX(-50%)", width: 84, height: 84, borderRadius: "50%", border: "none", background: "none", cursor: "pointer", padding: 0, pointerEvents: "auto", animation: "pulse-btn 2s ease-in-out infinite", filter: "drop-shadow(0 4px 16px rgba(201,168,76,0.45))" }}
+      >
+        <img src="/rip-btn.png" alt="Scan" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "50%" }} />
+      </button>
+    </div>
+  );
+
   // ── SHARED HEADER (sticky, always visible) ──
   const SharedHeader = ({ title, subtitle, showBack }) => (
     <div style={{ background: "linear-gradient(180deg, rgba(8,8,16,0.97) 0%, rgba(8,8,16,0.85) 100%)", backdropFilter: "blur(20px)", borderBottom: "1px solid rgba(201,168,76,0.1)", padding: "14px 16px", position: "sticky", top: 0, zIndex: 100 }}>
@@ -1829,7 +1844,7 @@ export default function App() {
   // ── HOME PAGE ──
   if (currentPage.page === "home") {
     return (
-      <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: "#080810", minHeight: "100vh", color: "#e8e8f0" }}>
+      <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: "#080810", minHeight: "100vh", color: "#e8e8f0", paddingBottom: 88 }}>
         <SharedHeader title="Rip &amp; Track" subtitle={`${collectedCount}/${TOTAL} unique · ${totalCards} total cards`} showBack={false} />
 
         {/* Global search */}
@@ -1912,7 +1927,7 @@ export default function App() {
         </div>
 
         {modalSticker && <StickerModal sticker={modalSticker} collectedData={collected} onSave={handleSave} onClose={() => setModalSticker(null)} />}
-        <button onClick={() => setScanOpen(true)} style={{ position: "fixed", bottom: 28, left: "50%", width: 64, height: 64, borderRadius: "50%", background: "radial-gradient(circle at 30% 30%,#f0d080,#C9A84C,#8a6a1e)", border: "none", color: "#fff", fontSize: 24, cursor: "pointer", zIndex: 400, boxShadow: "0 4px 20px rgba(201,168,76,0.5), 0 0 0 1px rgba(201,168,76,0.3)", display: "flex", alignItems: "center", justifyContent: "center", animation: "pulse-btn 2s ease-in-out infinite" }}>📷</button>
+        <BottomNav />
         {scanOpen && <ScanOverlay onClose={handleScanClose} onAddToInventory={handleScanAdd} onLookUp={handleScanLookUp} />}
         {toast && <ScanToast message={toast.message} color={toast.color} />}
       </div>
@@ -1925,7 +1940,7 @@ export default function App() {
   const teamStat = teamStats.find(t => t.team === teamName);
 
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: "#080810", minHeight: "100vh", color: "#e8e8f0" }}>
+    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: "#080810", minHeight: "100vh", color: "#e8e8f0", paddingBottom: 88 }}>
       <SharedHeader
         title={teamLabel}
         subtitle={teamStat ? `${teamStat.have}/${teamStat.total} collected · ${teamStat.pct}% complete` : ""}
@@ -2015,7 +2030,7 @@ export default function App() {
       </div>
 
       {modalSticker && <StickerModal sticker={modalSticker} collectedData={collected} onSave={handleSave} onClose={() => setModalSticker(null)} />}
-      <button onClick={() => setScanOpen(true)} style={{ position: "fixed", bottom: 28, left: "50%", width: 64, height: 64, borderRadius: "50%", background: "radial-gradient(circle at 30% 30%,#f0d080,#C9A84C,#8a6a1e)", border: "none", color: "#fff", fontSize: 24, cursor: "pointer", zIndex: 400, boxShadow: "0 4px 20px rgba(201,168,76,0.5), 0 0 0 1px rgba(201,168,76,0.3)", display: "flex", alignItems: "center", justifyContent: "center", animation: "pulse-btn 2s ease-in-out infinite" }}>📷</button>
+      <BottomNav />
       {scanOpen && <ScanOverlay onClose={handleScanClose} onAddToInventory={handleScanAdd} onLookUp={handleScanLookUp} />}
       {toast && <ScanToast message={toast.message} color={toast.color} />}
     </div>
