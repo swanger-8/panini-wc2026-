@@ -1848,22 +1848,22 @@ export default function App() {
     return (
       <div style={{ fontFamily: "'Oswald', sans-serif", minHeight: "100vh", color: "#ead8ad", paddingBottom: 88, position: "relative" }}>
         {/* Background */}
-        <div style={{ position: "fixed", inset: 0, zIndex: 0, backgroundImage: "url('/6ffb6e0a335b5bf84a5db2a9f6cacf94_1_1782749614_9361.png')", backgroundSize: "cover", backgroundPosition: "center" }} />
-        <div style={{ position: "fixed", inset: 0, zIndex: 0, background: "rgba(18,16,11,0.45)" }} />
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, backgroundImage: "url('/6ffb6e0a335b5bf84a5db2a9f6cacf94_1_1782749614_9361.png')", backgroundSize: "cover", backgroundPosition: "top center" }} />
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, background: "rgba(10,6,2,0.35)" }} />
         <div style={{ position: "relative", zIndex: 1 }}>
         <SharedHeader title="Rip &amp; Track" subtitle="" showBack={false} />
         <HomeStatsPanel />
 
         {/* Global search */}
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "12px 16px 8px" }}>
-          <div style={{ position: "relative" }} ref={searchRef}>
-            <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontSize: 14, color: "#7c5631" }}>🔍</span>
+          <div style={{ position: "relative", backgroundImage: "url('/search-bg.png')", backgroundSize: "100% 100%", borderRadius: 10, boxShadow: "0 4px 0 #3b2516" }} ref={searchRef}>
+            <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontSize: 14, color: "#5a3e1b" }}>🔍</span>
             <input
               placeholder="Search any player, team, or sticker code..."
               value={globalSearch}
               onChange={e => { setGlobalSearch(e.target.value); setShowDropdown(true); }}
               onFocus={() => setShowDropdown(true)}
-              style={{ width: "100%", padding: "11px 36px 11px 36px", borderRadius: 10, border: "none", backgroundImage: "url('/search-bg.png')", backgroundSize: "100% 100%", color: "#1d160f", fontSize: 14, outline: "none", boxSizing: "border-box", boxShadow: "0 4px 0 #3b2516" }}
+              style={{ width: "100%", padding: "13px 36px 13px 36px", border: "none", background: "transparent", color: "#1d160f", fontSize: 14, outline: "none", boxSizing: "border-box", fontFamily: "'Oswald', sans-serif" }}
             />
             {globalSearch && (
               <button onClick={() => { setGlobalSearch(""); setShowDropdown(false); }} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "#6b5a42", fontSize: 16, cursor: "pointer" }}>✕</button>
