@@ -3,16 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="theme-color" content="#f1ead9" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Panini WC 2026" />
-    <link rel="apple-touch-icon" href="/icon.png" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Rip &amp; Track" />
+    <link rel="apple-touch-icon" href="/logo.png" />
     <link rel="manifest" href="/manifest.json" />
-    <title>Panini WC 2026 Tracker</title>
+    <title>Rip &amp; Track</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;700;800;900&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <style>
-      * { box-sizing: border-box; margin: 0; padding: 0; }
-      body { background: #0a0a0f; color: #e8e8f0; font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; overscroll-behavior: none; }
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      :root {
+        --paper: #f1ead9;
+        --paper-card: #ece3cf;
+        --ink: #1b1712;
+        --panel: #181410;
+        --red: #bf2630;
+        --red-dk: #9c1d25;
+        --gold: #b58a2e;
+        --muted: #736a55;
+        --hair: rgba(27,23,18,.18);
+      }
+      body {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: 'Oswald', sans-serif;
+        overscroll-behavior: none;
+        -webkit-font-smoothing: antialiased;
+      }
       #root { min-height: 100vh; min-height: 100dvh; }
     </style>
   </head>
