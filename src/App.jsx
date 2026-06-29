@@ -1085,6 +1085,22 @@ const STICKERS = [
 const ALL_TEAMS = [...new Set(STICKERS.map(s => s.team))];
 const TOTAL = STICKERS.length;
 
+const TEAM_FLAGS = {
+  "Algeria": "🇩🇿", "Argentina": "🇦🇷", "Australia": "🇦🇺", "Austria": "🇦🇹",
+  "Belgium": "🇧🇪", "Bosnia & Herzegovina": "🇧🇦", "Brazil": "🇧🇷",
+  "Canada": "🇨🇦", "Cape Verde": "🇨🇻", "Colombia": "🇨🇴", "Croatia": "🇭🇷",
+  "Curaçao": "🇨🇼", "Czechia": "🇨🇿", "DR Congo": "🇨🇩", "Ecuador": "🇪🇨",
+  "Egypt": "🇪🇬", "England": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "France": "🇫🇷", "FWC": "🏆",
+  "Germany": "🇩🇪", "Ghana": "🇬🇭", "Haiti": "🇭🇹", "Iran": "🇮🇷",
+  "Iraq": "🇮🇶", "Ivory Coast": "🇨🇮", "Japan": "🇯🇵", "Jordan": "🇯🇴",
+  "Mexico": "🇲🇽", "Morocco": "🇲🇦", "Netherlands": "🇳🇱", "New Zealand": "🇳🇿",
+  "Norway": "🇳🇴", "Panama": "🇵🇦", "Paraguay": "🇵🇾", "Portugal": "🇵🇹",
+  "Qatar": "🇶🇦", "Saudi Arabia": "🇸🇦", "Scotland": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "Senegal": "🇸🇳",
+  "South Africa": "🇿🇦", "South Korea": "🇰🇷", "Spain": "🇪🇸", "Sweden": "🇸🇪",
+  "Switzerland": "🇨🇭", "Tunisia": "🇹🇳", "Türkiye": "🇹🇷", "USA": "🇺🇸",
+  "Uruguay": "🇺🇾", "Uzbekistan": "🇺🇿",
+};
+
 // Rarity colors (border colors) — matches NA box parallels
 const RARITIES = [
   { id: "base",   label: "Base",   color: "#4a4a6a", hex: "#4a4a6a",  bg: "#13131f" },
@@ -1878,11 +1894,11 @@ export default function App() {
                 style={{ background: tp === 100 ? "rgba(201,168,76,0.06)" : "rgba(255,255,255,0.04)", border: `1px solid ${tp === 100 ? "rgba(201,168,76,0.5)" : "rgba(201,168,76,0.12)"}`, borderRadius: 16, backdropFilter: "blur(16px) saturate(180%)", boxShadow: "0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)", padding: "14px", cursor: "pointer", display: "flex", flexDirection: "column", gap: 6 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 3, color: "#C9A84C", opacity: 0.6, marginBottom: 2 }}>
-                      {team === "FWC" ? "FWC" : team.slice(0, 3).toUpperCase()}
+                    <div style={{ fontSize: 32, lineHeight: 1, marginBottom: 6 }}>
+                      {TEAM_FLAGS[team] || "🏳️"}
                     </div>
                     <div style={{ fontSize: 14, fontWeight: 700, color: "#fff", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                      {team === "FWC" ? "🏆 Tournament" : team}
+                      {team === "FWC" ? "Tournament" : team}
                     </div>
                   </div>
                   <span style={{ fontSize: 18, color: "rgba(201,168,76,0.5)", flexShrink: 0 }}>›</span>
