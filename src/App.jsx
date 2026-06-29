@@ -1810,29 +1810,29 @@ export default function App() {
   // ── HOME STATS PANEL (tilted parchment card) ──
   const HomeStatsPanel = () => (
     <div style={{ maxWidth: 500, margin: "14px auto 0", padding: "0 16px" }}>
-      <div style={{ backgroundImage: "url('/stats-bg.png')", backgroundSize: "cover", backgroundPosition: "center", border: "none", borderRadius: 14, padding: "20px 28px", transform: "rotate(-1deg)" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 12 }}>
+      <div style={{ backgroundImage: "url('/card-bg.png')", backgroundSize: "cover", backgroundPosition: "center", borderRadius: 14, padding: "18px 20px 16px", transform: "rotate(-1deg)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 10 }}>
           <div>
-            <div style={{ fontSize: 52, fontWeight: 900, color: "#9f211b", lineHeight: 1 }}>{collectedCount}</div>
-            <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.08em", color: "#1d160f" }}>/ {TOTAL} COLLECTED</div>
+            <div style={{ fontSize: 56, fontWeight: 900, color: "#9f211b", lineHeight: 1 }}>{collectedCount}</div>
+            <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.05em", color: "#1d160f" }}>/ {TOTAL} COLLECTED</div>
           </div>
           <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 40, fontWeight: 900, color: "#1d160f", lineHeight: 1 }}>{pct}%</div>
-            <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.08em", color: "#1d160f" }}>COMPLETE</div>
+            <div style={{ fontSize: 44, fontWeight: 900, color: "#1d160f", lineHeight: 1 }}>{pct}%</div>
+            <div style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.05em", color: "#1d160f" }}>COMPLETE</div>
           </div>
         </div>
-        <div style={{ background: "#c8b98d", border: "1px solid #8b7448", borderRadius: 999, height: 10, overflow: "hidden", marginBottom: 12 }}>
+        <div style={{ background: "#c8b98d", border: "1px solid #8b7448", borderRadius: 999, height: 10, overflow: "hidden", marginBottom: 10 }}>
           <div style={{ height: "100%", width: `${pct}%`, background: "#9f211b", borderRadius: 999, transition: "width 0.4s ease" }} />
         </div>
         {totalCards > 0 && (
           <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
             {RARITIES.filter(r => rarityBreakdown[r.id] > 0).map(r => (
-              <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 3, background: "#efe1bd", border: "1px solid #8b7448", borderRadius: 999, padding: "3px 10px" }}>
+              <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 3, background: "rgba(200,185,141,0.5)", border: "1px solid #8b7448", borderRadius: 999, padding: "3px 10px" }}>
                 <div style={{ width: 8, height: 8, borderRadius: "50%", background: r.color }} />
-                <span style={{ fontSize: 11, color: "#1d160f", fontWeight: 700 }}>{rarityBreakdown[r.id]}× {r.label.toUpperCase()}</span>
+                <span style={{ fontSize: 12, color: "#1d160f", fontWeight: 700 }}>{rarityBreakdown[r.id]}× {r.label.toUpperCase()}</span>
               </div>
             ))}
-            {duplicates > 0 && <div style={{ display: "flex", alignItems: "center", gap: 3, background: "#efe1bd", border: "1px solid #8b7448", borderRadius: 999, padding: "3px 10px" }}><span style={{ fontSize: 11, color: "#6b5a42", fontWeight: 700 }}>{duplicates} DUPES</span></div>}
+            {duplicates > 0 && <div style={{ display: "flex", alignItems: "center", gap: 3, background: "rgba(200,185,141,0.5)", border: "1px solid #8b7448", borderRadius: 999, padding: "3px 10px" }}><span style={{ fontSize: 12, color: "#6b5a42", fontWeight: 700 }}>{duplicates} DUPES</span></div>}
           </div>
         )}
       </div>
