@@ -1770,14 +1770,19 @@ export default function App() {
   // ── BOTTOM NAV BAR ──
   const BottomNav = () => (
     <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 400 }}>
-      <div style={{ borderRadius: "24px 24px 0 0", height: 68, backgroundImage: "url('/nav-bg.png')", backgroundSize: "cover", backgroundPosition: "center", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <button
-          onClick={() => setScanOpen(true)}
-          style={{ width: 52, height: 52, borderRadius: "50%", border: "none", background: "none", cursor: "pointer", padding: 0, animation: "pulse-btn 2s ease-in-out infinite", filter: "drop-shadow(0 2px 8px rgba(159,33,27,0.5))" }}
-        >
-          <img src="/rip-btn.png" alt="Scan" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "50%" }} />
-        </button>
+      {/* Nav bar — img tag with objectFit:cover so image scales proportionally, anchored to bottom so the clean bar portion shows */}
+      <div style={{ position: "relative", borderRadius: "24px 24px 0 0", height: 68, overflow: "hidden" }}>
+        <img src="/nav-bg.png" alt="" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center bottom", pointerEvents: "none" }} />
+        {/* Upward arrow pointing to floating button */}
+        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -60%)", fontSize: 13, color: "#9f211b", opacity: 0.7, pointerEvents: "none" }}>▲</div>
       </div>
+      {/* RIP button floats above the bar, centered */}
+      <button
+        onClick={() => setScanOpen(true)}
+        style={{ position: "absolute", bottom: 50, left: "50%", transform: "translateX(-50%)", width: 70, height: 70, borderRadius: "50%", border: "none", background: "none", cursor: "pointer", padding: 0, animation: "pulse-btn 2s ease-in-out infinite", filter: "drop-shadow(0 4px 16px rgba(159,33,27,0.7))" }}
+      >
+        <img src="/rip-btn.png" alt="Scan" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: "50%" }} />
+      </button>
     </div>
   );
 
@@ -1841,7 +1846,7 @@ export default function App() {
   // ── HOME PAGE ──
   if (currentPage.page === "home") {
     return (
-      <div style={{ fontFamily: "'Oswald', sans-serif", minHeight: "100vh", color: "#ead8ad", paddingBottom: 88, position: "relative" }}>
+      <div style={{ fontFamily: "'Oswald', sans-serif", minHeight: "100vh", color: "#ead8ad", paddingBottom: 130, position: "relative" }}>
         {/* Background */}
         <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, backgroundImage: "url('/6ffb6e0a335b5bf84a5db2a9f6cacf94_1_1782749614_9361.png')", backgroundSize: "cover", backgroundPosition: "top center" }} />
         <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 0, background: "rgba(10,6,2,0.12)" }} />
@@ -1855,13 +1860,12 @@ export default function App() {
         {/* Global search */}
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "12px 16px 8px" }}>
           <div style={{ position: "relative", backgroundImage: "url('/search-bg.png')", backgroundSize: "cover", backgroundPosition: "center", borderRadius: 10, height: 48 }} ref={searchRef}>
-            <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 16, color: "#7c5631", pointerEvents: "none" }}>🔍</span>
             <input
-              placeholder="Search any player, team, or sticker code..."
+              placeholder=""
               value={globalSearch}
               onChange={e => { setGlobalSearch(e.target.value); setShowDropdown(true); }}
               onFocus={() => setShowDropdown(true)}
-              style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", padding: "0 36px 0 44px", border: "none", background: "transparent", color: "#1d160f", fontSize: 14, outline: "none", boxSizing: "border-box", fontFamily: "'Oswald', sans-serif" }}
+              style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", padding: "0 36px 0 16px", border: "none", background: "transparent", color: "#1d160f", fontSize: 14, outline: "none", boxSizing: "border-box", fontFamily: "'Oswald', sans-serif" }}
             />
             {globalSearch && (
               <button onClick={() => { setGlobalSearch(""); setShowDropdown(false); }} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "#6b5a42", fontSize: 16, cursor: "pointer" }}>✕</button>
@@ -1941,7 +1945,7 @@ export default function App() {
   const teamStat = teamStats.find(t => t.team === teamName);
 
   return (
-    <div style={{ fontFamily: "'Oswald', sans-serif", background: "radial-gradient(circle at top, #3b2414 0%, #111 60%) #12100b", minHeight: "100vh", color: "#ead8ad", paddingBottom: 88 }}>
+    <div style={{ fontFamily: "'Oswald', sans-serif", background: "radial-gradient(circle at top, #3b2414 0%, #111 60%) #12100b", minHeight: "100vh", color: "#ead8ad", paddingBottom: 130 }}>
       <SharedHeader
         title={teamLabel}
         subtitle={teamStat ? `${teamStat.have}/${teamStat.total} collected · ${teamStat.pct}% complete` : ""}
